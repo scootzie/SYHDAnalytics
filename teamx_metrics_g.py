@@ -27,10 +27,7 @@ percent = rows[0][0] / rows[0][1]
 other = 1-percent
 labels='HAS CREATED', 'HAS NOT CREATED'
 
-print('# of Members who have Created Connection = ' + str(top))
-print('# of Total Members = ' + str(total))
-
-fig, ax = plt.subplots(nrows=2, ncols=1)
+fig, ax = plt.subplots(nrows=2, ncols=1, figsize = (12,6))
 ax[0].pie([percent, other], labels=labels, autopct='%1.1f%%')
 ax[0].set_title("% Breakdown (CUMULATIVE) of Members Who Create Connections")
 ax[0].axis('equal')
@@ -55,15 +52,15 @@ percent1 = rows1[0][0] / rows1[0][1]
 other1 = 1-percent1
 labels1='NEW MEMBER HAS CREATED', 'NEW MEMBER HAS NOT CREATED'
 
-print('# of New Members (Last 30 Days) who have Created Connection = ' + str(top1))
-print('# of New Members (Last 30 Days) = ' + str(total1))
-
 ax[1].pie([percent1, other1], labels=labels1, autopct='%1.1f%%')
 ax[1].set_title("% of new users (in the last 30 days) who have created at least one connection")
 ax[1].axis('equal')
 
 plt.tight_layout()
-plt.show()
-
+#plt.show()
+def saveFile(folderName):
+    fileName = '/Members Who Create Connections.pdf'
+    plt.savefig(folderName + fileName)
+    plt.close(fig)
 
 conn.close()

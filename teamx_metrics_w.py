@@ -29,7 +29,7 @@ percent = rows[0][0] / rows[0][1]
 other = 1-percent
 labels='HAS CHANGE REMINDER FREQ', 'HAS NOT CHANGED REMINDER FREQ'
 
-fig, ax = plt.subplots(nrows=2, ncols=2)
+fig, ax = plt.subplots(nrows=2, ncols=2, figsize = (12,6))
 ax[0][0].pie([percent, other], labels=labels, autopct='%1.1f%%')
 ax[0][0].set_title("% Breakdown (CUMULATIVE) of Members Who Change Reminder Freq")
 ax[0][0].axis('equal')
@@ -126,7 +126,10 @@ ax[1][1].set_yticks(np.arange(0.0, 1.1, 0.2))
 ax[1][1].grid(color='gray', linestyle='--')
 
 
-plt.show()
-
+#plt.show()
+def saveFile(folderName):
+    fileName = '/Members Who Change Reminder Frequencies.pdf'
+    plt.savefig(folderName + fileName)
+    plt.close()
 
 conn.close()

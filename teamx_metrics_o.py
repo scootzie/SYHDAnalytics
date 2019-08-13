@@ -11,7 +11,7 @@ conn = p.connect(dbname='teamx', user='postgres', password='')
 cur = conn.cursor()
 
 # 2 Graphs
-fig, ax = plt.subplots(nrows=2, ncols=1)
+fig, ax = plt.subplots(nrows=2, ncols=1, figsize = (12, 6))
 
 
 # Graph 1 - # of Unique Members who Create Connection --> Contact Connection (CUMULATIVE)
@@ -79,7 +79,10 @@ ax[1].set_title('# of Unique Members who Create Connection --> Contact Connectio
 
 
 plt.tight_layout()
-plt.show()
-
+#plt.show()
+def saveFile(folderName):
+    fileName = '/Members Who Create Connections and go on to Contact a Connection.pdf'
+    plt.savefig(folderName + fileName)
+    plt.close(fig)
 
 conn.close()

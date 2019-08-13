@@ -27,7 +27,7 @@ for r in rows:
     labels.append(r[0] + ", " + r[1] + ", " + r[2])
     count.append(r[3])
 
-fig, ax = plt.subplots(nrows=2, ncols=1)
+fig, ax = plt.subplots(nrows=2, ncols=1, figsize = (12, 6))
 ax[0].pie(count, labels=labels, autopct='%1.1f%%')
 ax[0].set_title("% Breakdown (CUMULATIVE) of Contact Connection Source")
 ax[0].axis('equal')
@@ -56,7 +56,10 @@ ax[1].set_title("% Breakdown (LAST 30 DAYS) of Contact Connection Source")
 ax[1].axis('equal')
 
 
-plt.show()
-
+#plt.show()
+def saveFile(folderName):
+    fileName = '/Contact Connection Breakdown.pdf'
+    plt.savefig(folderName + fileName)
+    plt.close(fig)
 
 conn.close()

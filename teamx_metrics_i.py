@@ -34,6 +34,7 @@ for r in rows:
     nums.append(r[0])
 bins = np.max(nums)-1
 
+plt.figure(figsize=(10,6))
 plt.subplot(211)
 
 plt.hist(nums, bins)
@@ -71,7 +72,6 @@ nums = []
 for r in rows:
     nums.append(r[0])
 bins = np.max(nums)-1
-
 plt.subplot(212)
 
 plt.hist(nums, bins)
@@ -81,8 +81,11 @@ plt.ylabel("# of Members")
 plt.grid(alpha=0.5)
 
 
-
-plt.show()
-
+plt.subplots_adjust(hspace=.6)
+#plt.show()
+def saveFile(folderName):
+    fileName = '/Number of Connections Breakdown.pdf'
+    plt.savefig(folderName + fileName)
+    plt.close()
 
 conn.close()

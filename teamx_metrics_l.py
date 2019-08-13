@@ -12,7 +12,7 @@ cur = conn.cursor()
 
 
 # 6 Graphs
-fig, ax = plt.subplots(nrows=2, ncols=3)
+fig, ax = plt.subplots(nrows=2, ncols=3, figsize = (14, 7))
 
 # Graph 1 - % Breakdown (Cumulative) of contact connection source/method/action - Pie Chart
 cur.execute("""
@@ -149,7 +149,10 @@ ax[1][2].axis('equal')
 
 fig.subplots_adjust(wspace=1.5)
 
-plt.show()
-
+#plt.show()
+def saveFile(folderName):
+    fileName = '/Mark as Contacted, Send Message, and View Connection Details Breakdown.pdf'
+    plt.savefig(folderName + fileName)
+    plt.close(fig)
 
 conn.close()

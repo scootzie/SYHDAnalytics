@@ -47,7 +47,7 @@ for r in rows:
 x = range(1, len(dates)+1)
 
 # Graph 1 - "Mark as Contacted" DAU, WAU, and MAU Over Time
-fig, ax = plt.subplots(nrows=2, ncols=1)
+fig, ax = plt.subplots(nrows=2, ncols=1, figsize = (10, 6))
 ax[0].plot(dates, dau, label='dau')
 ax[0].plot(dates, wau, label='wau')
 ax[0].plot(dates, mau, label='mau')
@@ -75,7 +75,10 @@ ax[1].set_yticks(np.arange(0.0, 1.1, 0.1))
 ax[1].grid(color='gray', linestyle='--')
 
 plt.tight_layout()
-plt.show()
-
+#plt.show()
+def saveFile(folderName):
+    fileName = '/Mark as Contacted - DAU, WAU, MAU, and Stickiness.pdf'
+    plt.savefig(folderName + fileName)
+    plt.close(fig)
 
 conn.close()

@@ -51,7 +51,7 @@ for r in rows1:
     counts1.append(r[1])
 
 # Graph 1 - New Members Per Day
-fig, ax = plt.subplots(nrows=2, ncols=1)
+fig, ax = plt.subplots(nrows=2, ncols=1, figsize = (10,6))
 ax[0].plot(dates, counts)
 ax[0].set_title("# of New Members Per Day")
 ax[0].set(xlabel='Date (Month)', ylabel='# of New Members')
@@ -74,7 +74,10 @@ ax[1].yaxis.set_ticks(np.arange(0, max(counts1)+1, 1))
 ax[1].grid(color='gray', linestyle='--')
 
 plt.tight_layout()
-plt.show()
-
+#plt.show()
+def saveFile(folderName):
+    fileName = '/New Members and Total Members.pdf'
+    plt.savefig(folderName + fileName)
+    plt.close(fig)
 
 conn.close()

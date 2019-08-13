@@ -55,7 +55,7 @@ for r in rows:
     failureMonth.append(r[5]-r[6])
 x = range(1, len(dates)+1)
 
-fig, ax = plt.subplots(nrows=3, ncols=1)
+fig, ax = plt.subplots(nrows=3, ncols=1, figsize = (12,6))
 
 # Graph 1 - Open App --> Use Search Bar Funnel (LAST 30 DAYS)
 data = pd.DataFrame({'successMonth': successMonth, 'failureMonth': failureMonth, }, index=x)
@@ -101,7 +101,10 @@ ax[2].set_yticks(np.arange(0.0, 1.1, 0.2))
 ax[2].grid(color='gray', linestyle='--')
 
 plt.tight_layout()
-plt.show()
-
+#plt.show()
+def saveFile(folderName):
+    fileName = '/Open App to Use Search Bar Funnel.pdf'
+    plt.savefig(folderName + fileName)
+    plt.close(fig)
 
 conn.close()

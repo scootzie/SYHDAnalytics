@@ -11,7 +11,7 @@ conn = p.connect(dbname='teamx', user='postgres', password='')
 cur = conn.cursor()
 
 # 3 Graphs
-fig, ax = plt.subplots(nrows=3, ncols=1)
+fig, ax = plt.subplots(nrows=3, ncols=1, figsize = (12, 6))
 
 # Has no due connections
 cur.execute("""
@@ -112,7 +112,7 @@ for r in dueConsRows:
 # Graph 1 - Open App --> Average # of Mark as Contacted in 1 hour over last 30 Days
 ax[0].plot(dates, dueCons30Day, label="Due Cons")
 ax[0].plot(dates, noDueCons30Day, label="No Due Cons")
-ax[0].set_title("Open App --> Average # of 'Mark as Contacted' in 1 hour over last 30 Days, by users with Due Connections")
+ax[0].set_title("Open App --> Average # of 'Mark as Contacted' in 1 hour over last 30 Days, by Due Connections True/False")
 ax[0].legend(loc='lower left')
 ax[0].set(xlabel='Date', ylabel="Avg #")
 # Make ticks on occurrences of each month:
@@ -122,10 +122,10 @@ ax[0].xaxis.set_major_formatter(mdates.DateFormatter('%b %Y'))
 ax[0].grid(color='gray', linestyle='--')
 
 
-# Graph 1 - Open App --> Average # of Mark as Contacted in 1 hour over last 7 Days
+# Graph 2 - Open App --> Average # of Mark as Contacted in 1 hour over last 7 Days
 ax[1].plot(dates, dueCons7Day, label="Due Cons")
 ax[1].plot(dates, noDueCons7Day, label="No Due Cons")
-ax[1].set_title("Open App --> Average # of 'Mark as Contacted' in 1 hour over last 7 Days, by users with Due Connections")
+ax[1].set_title("Open App --> Average # of 'Mark as Contacted' in 1 hour over last 7 Days, by Due Connections True/False")
 ax[1].legend(loc='lower left')
 ax[1].set(xlabel='Date', ylabel="Avg #")
 # Make ticks on occurrences of each month:
@@ -134,10 +134,10 @@ ax[1].xaxis.set_major_locator(mdates.MonthLocator())
 ax[1].xaxis.set_major_formatter(mdates.DateFormatter('%b %Y'))
 ax[1].grid(color='gray', linestyle='--')
 
-# Graph 1 - Open App --> Average # of Mark as Contacted in 1 hour over last 1 Day
+# Graph 3 - Open App --> Average # of Mark as Contacted in 1 hour over last 1 Day
 ax[2].plot(dates, dueCons1Day, label="Due Cons")
 ax[2].plot(dates, noDueCons1Day, label="No Due Cons")
-ax[2].set_title("Open App --> Average # of 'Mark as Contacted' in 1 hour over last 1 Day, by users with Due Connections")
+ax[2].set_title("Open App --> Average # of 'Mark as Contacted' in 1 hour over last 1 Day, by Due Connections True/False")
 ax[2].legend(loc='lower left')
 ax[2].set(xlabel='Date', ylabel="Avg #")
 # Make ticks on occurrences of each month:
@@ -149,6 +149,10 @@ ax[2].grid(color='gray', linestyle='--')
 
 fig.subplots_adjust(hspace=1)
 
-plt.show()
+#plt.show()
+def saveFile(folderName):
+    fileName = '/Avg # of Mark as Contacted per Session by Due Connections True:False.pdf'
+    plt.savefig(folderName + fileName)
+    plt.close(fig)
 
 conn.close()

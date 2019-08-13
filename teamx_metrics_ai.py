@@ -11,7 +11,7 @@ conn = p.connect(dbname='teamx', user='postgres', password='')
 cur = conn.cursor()
 
 # 2 Graphs
-fig, ax = plt.subplots(nrows=2, ncols=1)
+fig, ax = plt.subplots(nrows=2, ncols=1, figsize = (12,6))
 
 # Graph 1 - Total Open App numOfDueConnections Breakdown
 
@@ -76,6 +76,10 @@ ax[1].set_yticks(np.arange(0.0, 1.1, 0.1))
 ax[1].grid(color='gray', linestyle='--')
 
 
-plt.show()
+#plt.show()
+def saveFile(folderName):
+    fileName = '/Open App Breakdown by Due Connections True:False.pdf'
+    plt.savefig(folderName + fileName)
+    plt.close(fig)
 
 conn.close()

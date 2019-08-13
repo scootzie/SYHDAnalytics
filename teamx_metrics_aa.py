@@ -11,7 +11,7 @@ conn = p.connect(dbname='teamx', user='postgres', password='')
 cur = conn.cursor()
 
 # 1 Graph
-fig, ax = plt.subplots(nrows=1, ncols=1)
+fig, ax = plt.subplots(nrows=1, ncols=1, figsize = (12, 6))
 
 # Has no due connections
 cur.execute("""
@@ -77,6 +77,11 @@ ax.xaxis.set_major_formatter(mdates.DateFormatter('%b %Y'))
 ax.grid(color='gray', linestyle='--')
 
 
-plt.show()
+#plt.show()
+def saveFile(folderName):
+    fileName = '/Members Who Create Connections.pdf'
+    plt.savefig(folderName + fileName)
+    plt.close(fig)
+
 
 conn.close()

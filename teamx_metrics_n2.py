@@ -11,7 +11,7 @@ conn = p.connect(dbname='teamx', user='postgres', password='')
 cur = conn.cursor()
 
 # 4 Graphs
-fig, ax = plt.subplots(nrows=2, ncols=2)
+fig, ax = plt.subplots(nrows=2, ncols=2, figsize = (16,8))
 
 
 # Graph 1 - NOTIFICATIONS ENABLED - % Breakdown (Cumulative) of contact connection source/method/action - Pie Chart
@@ -99,7 +99,12 @@ ax[1, 1].pie(count1, labels=labels1, autopct='%1.1f%%')
 ax[1, 1].set_title("% Breakdown of Contact Connection Source\n[Notifications Disabled][Last 30 Days]")
 ax[1, 1].axis('equal')
 
-plt.show()
-
+fig.subplots_adjust(wspace=.6)
+fig.subplots_adjust(hspace=.6)
+#plt.show()
+def saveFile(folderName):
+    fileName = '/Contact Connection Breakdown by Notifications Enabled:Disabled.pdf'
+    plt.savefig(folderName + fileName)
+    plt.close(fig)
 
 conn.close()

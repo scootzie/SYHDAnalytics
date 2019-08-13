@@ -11,7 +11,7 @@ conn = p.connect(dbname='teamx', user='postgres', password='')
 cur = conn.cursor()
 
 # 6 Graphs
-fig, ax = plt.subplots(nrows=2, ncols=3)
+fig, ax = plt.subplots(nrows=2, ncols=3, figsize = (18, 8))
 
 
 # Graph 1 - Demographics Breakdown - Device (Last 30 Days)
@@ -149,7 +149,10 @@ ax[1, 2].set_title("Demographics Breakdown - Version (All Members)")
 ax[1, 2].axis('equal')
 
 
-plt.show()
-
+#plt.show()
+def saveFile(folderName):
+    fileName = '/Demographics Breakdown.pdf'
+    plt.savefig(folderName + fileName)
+    plt.close(fig)
 
 conn.close()

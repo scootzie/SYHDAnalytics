@@ -84,7 +84,7 @@ for r in rows1:
 x1 = range(1, len(dates1)+1)
 
 # 4 graphs
-fig, ax = plt.subplots(nrows=2, ncols=2)
+fig, ax = plt.subplots(nrows=2, ncols=2, figsize = (16,8))
 
 # Graph 1 - ENABLED NOTIFICATIONS: DAU, WAU, and MAU Over Time
 ax[0, 0].plot(dates, dau, label='dau')
@@ -140,7 +140,11 @@ ax[1, 1].xaxis.set_major_formatter(mdates.DateFormatter('%b %Y'))
 ax[1, 1].set_yticks(np.arange(0.0, 1.1, 0.1))
 ax[1, 1].grid(color='gray', linestyle='--')
 
-plt.show()
-
+fig.subplots_adjust(hspace=.6)
+#plt.show()
+def saveFile(folderName):
+    fileName = '/DAU, WAU, MAU, Stickiness for Notifications Enabled:Disabled.pdf'
+    plt.savefig(folderName + fileName)
+    plt.close(fig)
 
 conn.close()

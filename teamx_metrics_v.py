@@ -10,7 +10,7 @@ from matplotlib.ticker import MultipleLocator
 conn = p.connect(dbname='teamx', user='postgres', password='')
 cur = conn.cursor()
 
-fig, ax = plt.subplots(nrows=3, ncols=1)
+fig, ax = plt.subplots(nrows=3, ncols=1, figsize = (16,6))
 
 # Graph 1 - Histogram of Hour of Day for Open App Events
 cur.execute("""
@@ -89,32 +89,36 @@ ax[2].grid()
 
 
 plt.tight_layout()
-plt.show()
+def saveFile(folderName):
+    fileName = '/Hour of Day and Day of Week Usage.pdf'
+    plt.savefig(folderName + fileName)
 
 
-#Fun Clock Graph of By Hour Breakdown
-N = 23
-bottom = 2
-# create theta for 24 hours
-theta = np.linspace(0.0, 2 * np.pi, N, endpoint=False)
-# make the histogram that bined on 24 hour
-radii, tick = np.histogram(hours, bins = 23)
-# width of each bin on the plot
-width = (2*np.pi) / N
-# make a polar plot
-plt.figure(figsize = (12, 8))
-ax = plt.subplot(111, polar=True)
-bars = ax.bar(theta, radii, width=width, bottom=bottom)
-# set the lable go clockwise and start from the top
-ax.set_theta_zero_location("N")
-# clockwise
-ax.set_theta_direction(-1)
-# set the label
-ticks = ['12:00AM', '3:00AM', '6:00AM', '9:00AM', '12:00PM', '3:00PM', '6:00PM', '9:00PM']
-ax.set_xticklabels(ticks)
-ax.set_title('Hour of Day for Open App Events')
-
-plt.show()
-
+#plt.show()
+def saveFile2(folderName):
+    fileName = '/Hour of Day and Day of Week Usage - Clock.pdf'
+    # Fun Clock Graph of By Hour Breakdown
+    N = 23
+    bottom = 2
+    # create theta for 24 hours
+    theta = np.linspace(0.0, 2 * np.pi, N, endpoint=False)
+    # make the histogram that bined on 24 hour
+    radii, tick = np.histogram(hours, bins=23)
+    # width of each bin on the plot
+    width = (2 * np.pi) / N
+    # make a polar plot
+    plt.figure(figsize=(10, 6))
+    ax = plt.subplot(111, polar=True)
+    bars = ax.bar(theta, radii, width=width, bottom=bottom)
+    # set the lable go clockwise and start from the top
+    ax.set_theta_zero_location("N")
+    # clockwise
+    ax.set_theta_direction(-1)
+    # set the label
+    ticks = ['12:00AM', '3:00AM', '6:00AM', '9:00AM', '12:00PM', '3:00PM', '6:00PM', '9:00PM']
+    ax.set_xticklabels(ticks)
+    ax.set_title('Hour of Day for Open App Events')
+    plt.savefig(folderName + fileName)
+    plt.close(fig)
 
 conn.close()

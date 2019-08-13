@@ -38,7 +38,7 @@ for r in rows:
 labels='ENABLED', 'NOT ENABLED'
 
 # 3 Graphs
-fig, ax = plt.subplots(nrows=3, ncols=1)
+fig, ax = plt.subplots(nrows=3, ncols=1, figsize = (10,6))
 
 # Graph 1 - % Notifications Enabled (Cumulative) - Pie Chart
 ax[0].pie([totalEnabled, totalDisabled], labels=labels, autopct='%1.1f%%')
@@ -47,7 +47,6 @@ ax[0].axis('equal')
 
 # Graph 2 - % Notifications Enabled by Month of Created Date - Line Graph
 x = range(1, len(rows)+1)
-print(len(rows)+1)
 data = pd.DataFrame({'Percent Enabled': npe, 'Percent NOT Enabled': npd, }, index=x)
 data_perc = data.divide(data.sum(axis=1), axis=0)
 ax[1].stackplot(dates, data_perc['Percent Enabled'], data_perc['Percent NOT Enabled'], labels=['Percent Enabled', 'Percent NOT Enabled'])
@@ -87,7 +86,6 @@ dates = []
 npe = []
 npd = []
 for r in rows:
-    print(r)
     dates.append(r[0])
     npe.append(r[1])
     npd.append(r[2])
@@ -95,7 +93,6 @@ for r in rows:
 
 # Graph 3 - % Notifications Enabled by MAUs - Stackplot
 x = range(1, len(rows)+1)
-print(len(rows)+1)
 data = pd.DataFrame({'Percent Enabled': npe, 'Percent NOT Enabled': npd, }, index=x)
 data_perc = data.divide(data.sum(axis=1), axis=0)
 ax[2].stackplot(dates, data_perc['Percent Enabled'], data_perc['Percent NOT Enabled'], labels=['Percent Enabled', 'Percent NOT Enabled'])
@@ -111,7 +108,10 @@ ax[2].grid(color='gray', linestyle='--')
 
 
 fig.subplots_adjust(hspace=.6)
-plt.show()
-
+#plt.show()
+def saveFile(folderName):
+    fileName = '/Notification Permissions Breakdown.pdf'
+    plt.savefig(folderName + fileName)
+    plt.close(fig)
 
 conn.close()
