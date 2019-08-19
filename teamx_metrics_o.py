@@ -61,7 +61,10 @@ FROM createConnectionMembers
 """)
 
 rows = cur.fetchall()
-data = [rows[0][0], rows[0][1], (rows[0][1]/rows[0][0])]
+if rows[0][0] > 0:
+    data = [rows[0][0], rows[0][1], (rows[0][1] / rows[0][0])]
+else:
+    data = [rows[0][0], rows[0][1], 0]
 labels = ['', 'Create Connection', 'Contact Connection', '% Conversion']
 x = np.arange(1, len(data)+1)
 
@@ -78,7 +81,7 @@ ax[1].set_ylabel('# of Unique Members')
 ax[1].set_title('# of Unique Members who Create Connection --> Contact Connection (LAST 30 DAYS)')
 
 
-plt.tight_layout()
+#plt.tight_layout()
 #plt.show()
 def saveFile(folderName):
     fileName = '/Members Who Create Connections and go on to Contact a Connection.pdf'

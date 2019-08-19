@@ -48,7 +48,10 @@ FROM IDsOfNewMembersToCreateConnection
 rows1 = cur.fetchall()
 top1 = rows1[0][0]
 total1 = rows1[0][1]
-percent1 = rows1[0][0] / rows1[0][1]
+if rows1[0][1] > 0:
+    percent1 = rows1[0][0] / rows1[0][1]
+else:
+    percent1 = 0
 other1 = 1-percent1
 labels1='NEW MEMBER HAS CREATED', 'NEW MEMBER HAS NOT CREATED'
 

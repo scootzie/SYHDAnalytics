@@ -63,7 +63,7 @@ for r in rows:
     numMarks30Day.append(r[3])
 
 
-# Graph 1 - Mark as Contacted --> Average # of Mark as Contacted per session
+# Graph 1 - % of Sessions where Members Achieve Ideal State: Open App (numDueConnections>0) --> Mark as Contacted (numDueConnections=0) per Session
 ax.plot(dates, numMarks30Day, label="Last 30 Days")
 ax.plot(dates, numMarks7Day, label="Last 7 Days")
 ax.plot(dates, numMarks1Day, label="Last 1 day")
