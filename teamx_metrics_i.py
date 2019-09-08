@@ -14,18 +14,18 @@ cur = conn.cursor()
 cur.execute("""
 WITH numConnectionsAdded AS (
         SELECT memberID, COUNT(name) AS "#added"
-        FROM Event JOIN Interaction ON Event.interactionID=Interaction.ID JOIN InteractionType ON Interaction.interactiontypeID=InteractionType.ID
+        FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID
         WHERE name='Create Connection'
         GROUP BY memberID
         ),
     numConnectionsDeleted AS (
         SELECT memberID, COUNT(name) AS "#deleted", MEMBERID-COUNT(name) AS "test"
-        FROM Event JOIN Interaction ON Event.interactionID=Interaction.ID JOIN InteractionType ON Interaction.interactiontypeID=InteractionType.ID
+        FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID
         WHERE name='Delete Connection'
         GROUP BY memberID
 )
 SELECT CASE WHEN "#deleted" IS NULL THEN "#added" ELSE "#added"-"#deleted" END AS "# of connections"
-FROM numConnectionsAdded LEFT JOIN numConnectionsDeleted ON numConnectionsAdded.memberID=numConnectionsDeleted.memberID
+FROM numConnectionsAdded LEFT JOIN numConnectionsDeleted ON numConnectionsAdded.memberID=numConnectionsDeleted.memberID;
 """)
 rows = cur.fetchall()
 
@@ -48,23 +48,23 @@ plt.grid(alpha=0.5)
 cur.execute("""
 WITH mau AS (
     SELECT DISTINCT memberID
-    FROM Event JOIN Interaction ON Event.interactionID=Interaction.ID JOIN InteractionType ON Interaction.interactiontypeID=InteractionType.ID JOIN MEMBER ON Event.memberID=Member.ID
+    FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID
     WHERE name='Open App' AND Event.createdAt>now()::DATE-30
 ),
 numConnectionsAdded AS (
     SELECT memberID, COUNT(name) AS "#added"
-    FROM Event JOIN Interaction ON Event.interactionID=Interaction.ID JOIN InteractionType ON Interaction.interactiontypeID=InteractionType.ID
+    FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID
     WHERE name='Create Connection'
     GROUP BY memberID
 ),
 numConnectionsDeleted AS (
     SELECT memberID, COUNT(name) AS "#deleted"
-    FROM Event JOIN Interaction ON Event.interactionID=Interaction.ID JOIN InteractionType ON Interaction.interactiontypeID=InteractionType.ID
+    FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID
     WHERE name='Delete Connection'
     GROUP BY memberID
 )
 SELECT CASE WHEN "#deleted" IS NULL THEN "#added" ELSE "#added"-"#deleted" END AS "# of connections"
-FROM numConnectionsAdded LEFT JOIN numConnectionsDeleted ON numConnectionsAdded.memberID=numConnectionsDeleted.memberID JOIN mau ON numConnectionsAdded.memberID=mau.memberID
+FROM numConnectionsAdded LEFT JOIN numConnectionsDeleted ON numConnectionsAdded.memberID=numConnectionsDeleted.memberID JOIN mau ON numConnectionsAdded.memberID=mau.memberID;
 """)
 rows = cur.fetchall()
 

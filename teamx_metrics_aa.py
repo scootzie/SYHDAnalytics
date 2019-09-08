@@ -19,12 +19,12 @@ WITH FinalAvgs AS (
     WITH AvgMarkPerDay AS (
         WITH OpenAppEventDay AS (
             SELECT createdAt, memberID
-            FROM Event JOIN Interaction ON Event.interactionID=Interaction.ID JOIN InteractionType ON Interaction.interactiontypeID=InteractionType.ID
+            FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID
             WHERE name='Update Connection' AND action='mark as contacted'
         )
         SELECT OpenAppEventDay.createdAt::DATE AS "date",
             (SELECT COUNT(*)
-            FROM Event JOIN Interaction ON Event.interactionID=Interaction.ID JOIN InteractionType ON Interaction.interactiontypeID=InteractionType.ID
+            FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID
             WHERE OpenAppEventDay.memberID = Event.memberID AND name='Update Connection' AND action='mark as contacted' AND Event.createdAt BETWEEN OpenAppEventDay.createdAt AND OpenAppEventDay.createdAt + '1 hour'::INTERVAL
             ) AS countMarkAsContact1HourNoDue
         FROM OpenAppEventDay
@@ -47,7 +47,7 @@ SELECT date,
     CASE WHEN totalmembers>0 THEN totalevents/totalmembers::DECIMAL ELSE 0 END AS oneday,
     CASE WHEN (sum(totalmembers) OVER (ROWS BETWEEN 6 PRECEDING AND CURRENT ROW))>0 THEN ((sum(totalevents) OVER (ROWS BETWEEN 6 PRECEDING AND CURRENT ROW))/(sum(totalmembers) OVER (ROWS BETWEEN 6 PRECEDING AND CURRENT ROW))) ELSE 0 END AS sevendays, 
     CASE WHEN (sum(totalmembers) OVER (ROWS BETWEEN 29 PRECEDING AND CURRENT ROW))>0 THEN ((sum(totalevents) OVER (ROWS BETWEEN 29 PRECEDING AND CURRENT ROW))/(sum(totalmembers) OVER (ROWS BETWEEN 29 PRECEDING AND CURRENT ROW))) ELSE 0 END AS thirtydays
-FROM t1
+FROM t1;
 """)
 
 rows = cur.fetchall()

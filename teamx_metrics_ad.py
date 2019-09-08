@@ -19,12 +19,12 @@ WITH FinalAvgs AS (
     WITH createExistsPerSesh AS (
         WITH searchBarEventSesh AS (
             SELECT createdAt, memberID
-            FROM Event JOIN Interaction ON Event.interactionID=Interaction.ID JOIN InteractionType ON Interaction.interactiontypeID=InteractionType.ID
+            FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID
             WHERE name='Search All Connections' AND action='use search bar'
         )
         SELECT searchBarEventSesh.createdAt::DATE AS "date",
             CASE WHEN (SELECT COUNT(*)
-            FROM Event JOIN Interaction ON Event.interactionID=Interaction.ID JOIN InteractionType ON Interaction.interactiontypeID=InteractionType.ID
+            FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID
             WHERE searchBarEventSesh.memberID = Event.memberID AND name='Create Connection' AND Event.createdAt BETWEEN searchBarEventSesh.createdAt AND searchBarEventSesh.createdAt + '1 hour'::INTERVAL
             )>0 THEN 1 ELSE 0 END AS createExists1Hour
         FROM searchBarEventSesh
@@ -47,7 +47,7 @@ SELECT date,
     CASE WHEN totalSearches>0 THEN totalCreates/totalSearches::DECIMAL ELSE 0 END AS oneday,
     CASE WHEN (sum(totalSearches) OVER (ROWS BETWEEN 6 PRECEDING AND CURRENT ROW))>0 THEN ((sum(totalCreates) OVER (ROWS BETWEEN 6 PRECEDING AND CURRENT ROW))/(sum(totalSearches) OVER (ROWS BETWEEN 6 PRECEDING AND CURRENT ROW))) ELSE 0 END AS sevendays, 
     CASE WHEN (sum(totalSearches) OVER (ROWS BETWEEN 29 PRECEDING AND CURRENT ROW))>0 THEN ((sum(totalCreates) OVER (ROWS BETWEEN 29 PRECEDING AND CURRENT ROW))/(sum(totalSearches) OVER (ROWS BETWEEN 29 PRECEDING AND CURRENT ROW))) ELSE 0 END AS thirtydays
-FROM t1
+FROM t1;
 """)
 
 rows = cur.fetchall()
