@@ -18,14 +18,14 @@ fig, ax = plt.subplots(nrows=2, ncols=1, figsize = (12, 6))
 cur.execute("""
 WITH createConnectionMembers AS (
     SELECT DISTINCT Member.id
-    FROM Event JOIN Interaction ON Event.interactionID=Interaction.ID JOIN InteractionType ON Interaction.interactiontypeID=InteractionType.ID JOIN MEMBER ON Event.memberID=Member.id
+    FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID JOIN MEMBER ON Event.memberID=Member.id
     WHERE name='Create Connection'
 )
 SELECT COUNT(*) AS numMembersCreate, 
     (SELECT COUNT(DISTINCT createConnectionMembers.id) 
-    FROM Event JOIN Interaction ON Event.interactionID=Interaction.ID JOIN InteractionType ON Interaction.interactiontypeID=InteractionType.ID JOIN createConnectionMembers ON Event.memberID=createConnectionMembers.id
+    FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID JOIN createConnectionMembers ON Event.memberID=createConnectionMembers.id
     WHERE Interactiontype.name='Contact Connection') AS numMembersContact
-FROM createConnectionMembers
+FROM createConnectionMembers;
 """)
 
 rows = cur.fetchall()
@@ -50,14 +50,14 @@ ax[0].set_title('# of Unique Members who Create Connection --> Contact Connectio
 cur.execute("""
 WITH createConnectionMembers AS (
     SELECT DISTINCT Member.id
-    FROM Event JOIN Interaction ON Event.interactionID=Interaction.ID JOIN InteractionType ON Interaction.interactiontypeID=InteractionType.ID JOIN MEMBER ON Event.memberID=Member.id
+    FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID JOIN MEMBER ON Event.memberID=Member.id
     WHERE name='Create Connection' AND Member.createdAt::DATE >= now()::DATE - 29
 )
 SELECT COUNT(*) AS numMembersCreate, 
     (SELECT COUNT(DISTINCT createConnectionMembers.id) 
-    FROM Event JOIN Interaction ON Event.interactionID=Interaction.ID JOIN InteractionType ON Interaction.interactiontypeID=InteractionType.ID JOIN createConnectionMembers ON Event.memberID=createConnectionMembers.id
+    FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID JOIN createConnectionMembers ON Event.memberID=createConnectionMembers.id
     WHERE Interactiontype.name='Contact Connection') AS numMembersContact
-FROM createConnectionMembers
+FROM createConnectionMembers;
 """)
 
 rows = cur.fetchall()

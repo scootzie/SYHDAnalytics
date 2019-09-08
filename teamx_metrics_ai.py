@@ -49,7 +49,7 @@ SELECT "date",
             FROM Event JOIN OpenAppTypeContext ON Event.id=OpenAppTypeContext.eventID
             WHERE Event.createdAt::DATE BETWEEN dau.date - 29 AND dau.date) 
             AS noDueConnectionsCount
-FROM dau
+FROM dau;
 """)
 rows = cur.fetchall()
 

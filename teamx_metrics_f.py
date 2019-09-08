@@ -18,7 +18,7 @@ FROM MEMBER
 SELECT AllDates.someday::DATE AS "date", COUNT(createdAt)
 FROM AllDates LEFT JOIN MEMBER ON AllDates.someday::DATE=member.createdAt::DATE
 GROUP BY 1
-ORDER BY 1;
+ORDER BY 1
 """)
 rows = cur.fetchall()
 
