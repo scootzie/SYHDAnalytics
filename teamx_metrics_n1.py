@@ -14,19 +14,19 @@ cur = conn.cursor()
 # Set up Notifications Enabled Data
 cur.execute("""
 WITH notificationsEnabledDau AS (
-  SELECT Event.createdAt::DATE AS "date", count(DISTINCT memberid) AS dau
-  FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID JOIN MEMBER ON Event.memberID=Member.ID
-  WHERE name='Open App' AND Member.notificationsEnabled=TRUE
+  SELECT "Event.createdAt"::DATE AS "date", count(DISTINCT memberid) AS dau
+  FROM "Event" JOIN "InteractionType" ON "Event.interactiontypeID"="InteractionType.ID" JOIN MEMBER ON "Event.memberID"="Member.ID"
+  WHERE name='Open App' AND "Member.notificationsEnabled"=TRUE
   GROUP BY 1 
 )
 SELECT "date", dau, 
             (SELECT count(DISTINCT memberid)
-            FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID JOIN MEMBER ON Event.memberID=Member.ID
-            WHERE name='Open App' AND Member.notificationsEnabled=TRUE AND Event.createdAt::DATE BETWEEN notificationsEnabledDau.date - 7 AND notificationsEnabledDau.date) 
+            FROM "Event" JOIN "InteractionType" ON "Event.interactiontypeID"="InteractionType.ID" JOIN MEMBER ON "Event.memberID"="Member.ID"
+            WHERE name='Open App' AND "Member.notificationsEnabled"=TRUE AND "Event.createdAt"::DATE BETWEEN notificationsEnabledDau.date - 7 AND notificationsEnabledDau.date) 
             AS wau,
             (SELECT count(DISTINCT memberid)
-            FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID JOIN MEMBER ON Event.memberID=Member.ID
-            WHERE name='Open App' AND Member.notificationsEnabled=TRUE AND Event.createdAt::DATE BETWEEN notificationsEnabledDau.date - 29 AND notificationsEnabledDau.date) 
+            FROM "Event" JOIN "InteractionType" ON "Event.interactiontypeID"="InteractionType.ID" JOIN MEMBER ON "Event.memberID"="Member.ID"
+            WHERE name='Open App' AND "Member.notificationsEnabled"=TRUE AND "Event.createdAt"::DATE BETWEEN notificationsEnabledDau.date - 29 AND notificationsEnabledDau.date) 
             AS mau
 FROM notificationsEnabledDau;
 """)
@@ -51,19 +51,19 @@ x = range(1, len(dates)+1)
 #Set Up Notifications Disabled Data
 cur.execute("""
 WITH notificationsDisabledDau AS (
-  SELECT Event.createdAt::DATE AS "date", count(DISTINCT memberid) AS dau
-  FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID JOIN MEMBER ON Event.memberID=Member.ID
-  WHERE name='Open App' AND Member.notificationsEnabled=FALSE
+  SELECT "Event.createdAt"::DATE AS "date", count(DISTINCT memberid) AS dau
+  FROM "Event" JOIN "InteractionType" ON "Event.interactiontypeID"="InteractionType.ID" JOIN MEMBER ON "Event.memberID"="Member.ID"
+  WHERE name='Open App' AND "Member.notificationsEnabled"=FALSE
   GROUP BY 1 
 )
 SELECT "date", dau, 
             (SELECT count(DISTINCT memberid)
-            FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID JOIN MEMBER ON Event.memberID=Member.ID
-            WHERE name='Open App' AND Member.notificationsEnabled=FALSE AND Event.createdAt::DATE BETWEEN notificationsDisabledDau.date - 7 AND notificationsDisabledDau.date) 
+            FROM "Event" JOIN "InteractionType" ON "Event.interactiontypeID"="InteractionType.ID" JOIN MEMBER ON "Event.memberID"="Member.ID"
+            WHERE name='Open App' AND "Member.notificationsEnabled"=FALSE AND "Event.createdAt"::DATE BETWEEN notificationsDisabledDau.date - 7 AND notificationsDisabledDau.date) 
             AS wau,
             (SELECT count(DISTINCT memberid)
-            FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID JOIN MEMBER ON Event.memberID=Member.ID
-            WHERE name='Open App' AND Member.notificationsEnabled=FALSE AND Event.createdAt::DATE BETWEEN notificationsDisabledDau.date - 29 AND notificationsDisabledDau.date) 
+            FROM "Event" JOIN "InteractionType" ON "Event.interactiontypeID"="InteractionType.ID" JOIN MEMBER ON "Event.memberID"="Member.ID"
+            WHERE name='Open App' AND "Member.notificationsEnabled"=FALSE AND "Event.createdAt"::DATE BETWEEN notificationsDisabledDau.date - 29 AND notificationsDisabledDau.date) 
             AS mau
 FROM notificationsDisabledDau;
 """)

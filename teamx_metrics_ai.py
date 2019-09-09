@@ -19,8 +19,7 @@ fig, ax = plt.subplots(nrows=2, ncols=1, figsize = (12,6))
 cur.execute("""
 SELECT COUNT(*) FILTER (WHERE numOfDueConnections>0) AS dueConnectionsCount,
     COUNT(*) FILTER (WHERE numOfDueConnections=0) AS noDueConnectionsCount
-FROM OpenAppTypeContext
-""")
+FROM "OpenAppTypeContext" """)
 rows = cur.fetchall()
 
 totalDue = rows[0][0]
@@ -37,18 +36,18 @@ ax[0].axis('equal')
 cur.execute("""
 WITH dau AS (
   SELECT createdAt::DATE AS "date"
-  FROM Event JOIN OpenAppTypeContext ON Event.id=OpenAppTypeContext.eventID
+  FROM "Event" JOIN "OpenAppTypeContext" ON "Event.id"="OpenAppTypeContext.eventID"
   GROUP BY 1
   ORDER BY 1
 )
 SELECT "date",
             (SELECT count(DISTINCT memberid) FILTER (WHERE numOfDueConnections>0)
-            FROM Event JOIN OpenAppTypeContext ON Event.id=OpenAppTypeContext.eventID
-            WHERE Event.createdAt::DATE BETWEEN dau.date - 29 AND dau.date) 
+            FROM "Event" JOIN "OpenAppTypeContext" ON "Event.id"="OpenAppTypeContext.eventID"
+            WHERE "Event.createdAt"::DATE BETWEEN dau.date - 29 AND dau.date) 
             AS dueConnectionsCount,
             (SELECT count(DISTINCT memberid) FILTER (WHERE numOfDueConnections=0)
-            FROM Event JOIN OpenAppTypeContext ON Event.id=OpenAppTypeContext.eventID
-            WHERE Event.createdAt::DATE BETWEEN dau.date - 29 AND dau.date) 
+            FROM "Event" JOIN "OpenAppTypeContext" ON "Event.id"="OpenAppTypeContext.eventID"
+            WHERE "Event.createdAt"::DATE BETWEEN dau.date - 29 AND dau.date) 
             AS noDueConnectionsCount
 FROM dau;
 """)

@@ -51,7 +51,7 @@ x = range(1, len(rows)+1)
 data = pd.DataFrame({'Percent Enabled': npe, 'Percent NOT Enabled': npd, }, index=x)
 data_perc = data.divide(data.sum(axis=1), axis=0)
 ax[1].stackplot(dates, data_perc['Percent Enabled'], data_perc['Percent NOT Enabled'], labels=['Percent Enabled', 'Percent NOT Enabled'])
-ax[1].set_title("Notification Permissions by Month of Member Creation")
+ax[1].set_title("Notification Permissions by Month of "Member" Creation")
 ax[1].legend(loc='lower left')
 ax[1].set(xlabel='Creation Date (Month)', ylabel='% of Members')
 # Make ticks on occurrences of each month:
@@ -65,18 +65,18 @@ ax[1].grid(color='gray', linestyle='--')
 cur.execute("""
 WITH dau AS (
   SELECT createdAt::DATE AS "date", count(DISTINCT memberid) AS dau
-  FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID
+  FROM "Event" JOIN "InteractionType" ON "Event.interactiontypeID"="InteractionType.ID"
   WHERE name='Open App'
   GROUP BY 1 
 )
 SELECT "date",
             (SELECT count(DISTINCT memberid) FILTER (WHERE notificationsEnabled=TRUE)
-            FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID JOIN MEMBER ON Event.memberID=Member.id
-            WHERE name='Open App' AND Event.createdAt::DATE BETWEEN dau.date - 29 AND dau.date) 
+            FROM "Event" JOIN "InteractionType" ON "Event.interactiontypeID"="InteractionType.ID" JOIN MEMBER ON "Event.memberID"="Member.id"
+            WHERE name='Open App' AND "Event.createdAt"::DATE BETWEEN dau.date - 29 AND dau.date) 
             AS mauNotificationsEnabledCount,
             (SELECT count(DISTINCT memberid) FILTER (WHERE notificationsEnabled=FALSE)
-            FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID JOIN MEMBER ON Event.memberID=Member.id
-            WHERE name='Open App' AND Event.createdAt::DATE BETWEEN dau.date - 29 AND dau.date) 
+            FROM "Event" JOIN "InteractionType" ON "Event.interactiontypeID"="InteractionType.ID" JOIN MEMBER ON "Event.memberID"="Member.id"
+            WHERE name='Open App' AND "Event.createdAt"::DATE BETWEEN dau.date - 29 AND dau.date) 
             AS mauNotificationsDisabledCount
 FROM dau;
 """)

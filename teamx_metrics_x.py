@@ -14,8 +14,7 @@ cur = conn.cursor()
 # Graph 1 - % Breakdown (Cumulative) of contact connection source/method/action - Pie Chart
 cur.execute("""
 SELECT frequency
-FROM UpdateConnectionTypeContext
-WHERE frequency IS NOT NULL;
+FROM "UpdateConnectionTypeContext" WHERE frequency IS NOT NULL;
 """)
 
 rows = cur.fetchall()

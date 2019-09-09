@@ -13,23 +13,23 @@ cur = conn.cursor()
 
 cur.execute("""
 WITH CreateConnectionUsers AS(
-    SELECT DISTINCT Event.memberID
-    FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID
+    SELECT DISTINCT "Event.memberID"
+    FROM "Event" JOIN "InteractionType" ON "Event.interactiontypeID"="InteractionType.ID"
     WHERE name='Create Connection'
     ),
 dau AS (
-    SELECT createdAt::DATE AS "date", count(DISTINCT Event.memberid) AS dau
-    FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID JOIN CreateConnectionUsers ON Event.memberID=CreateConnectionUsers.memberID
+    SELECT createdAt::DATE AS "date", count(DISTINCT "Event.memberid") AS dau
+    FROM "Event" JOIN "InteractionType" ON "Event.interactiontypeID"="InteractionType.ID" JOIN CreateConnectionUsers ON "Event.memberID"=CreateConnectionUsers.memberID
     WHERE name='Open App'
     GROUP BY 1 
 )
 SELECT "date", dau, 
-            (SELECT count(DISTINCT Event.memberid)
-            FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID JOIN CreateConnectionUsers ON Event.memberID=CreateConnectionUsers.memberID
+            (SELECT count(DISTINCT "Event.memberid")
+            FROM "Event" JOIN "InteractionType" ON "Event.interactiontypeID"="InteractionType.ID" JOIN CreateConnectionUsers ON "Event.memberID"=CreateConnectionUsers.memberID
             WHERE name='Open App' AND createdAt::DATE BETWEEN dau.date - 7 AND dau.date) 
             AS wau,
-            (SELECT count(DISTINCT Event.memberid)
-            FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID JOIN CreateConnectionUsers ON Event.memberID=CreateConnectionUsers.memberID
+            (SELECT count(DISTINCT "Event.memberid")
+            FROM "Event" JOIN "InteractionType" ON "Event.interactiontypeID"="InteractionType.ID" JOIN CreateConnectionUsers ON "Event.memberID"=CreateConnectionUsers.memberID
             WHERE name='Open App' AND createdAt::DATE BETWEEN dau.date - 29 AND dau.date) 
             AS mau
 FROM dau;

@@ -20,13 +20,13 @@ WITH FinalAvgs AS (
     WITH AvgMarkPerDay AS (
         WITH OpenAppEventDay AS (
             SELECT createdAt, memberID
-            FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID
+            FROM "Event" JOIN "InteractionType" ON "Event.interactiontypeID"="InteractionType.ID"
             WHERE name='Update Connection' AND action='mark as contacted'
         )
         SELECT OpenAppEventDay.createdAt::DATE AS "date",
             (SELECT COUNT(*)
-            FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID
-            WHERE OpenAppEventDay.memberID = Event.memberID AND name='Update Connection' AND action='mark as contacted' AND Event.createdAt BETWEEN OpenAppEventDay.createdAt AND OpenAppEventDay.createdAt + '1 hour'::INTERVAL
+            FROM "Event" JOIN "InteractionType" ON "Event.interactiontypeID"="InteractionType.ID"
+            WHERE OpenAppEventDay.memberID = "Event.memberID" AND name='Update Connection' AND action='mark as contacted' AND "Event.createdAt" BETWEEN OpenAppEventDay.createdAt AND OpenAppEventDay.createdAt + '1 hour'::INTERVAL
             ) AS countMarkAsContact1HourNoDue
         FROM OpenAppEventDay
         ORDER BY 1

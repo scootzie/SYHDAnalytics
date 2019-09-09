@@ -14,17 +14,17 @@ cur = conn.cursor()
 cur.execute("""
 WITH dau AS (
   SELECT createdAt::DATE AS "date", count(DISTINCT memberid) AS dau
-  FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID
+  FROM "Event" JOIN "InteractionType" ON "Event.interactiontypeID"="InteractionType.ID"
   WHERE action='mark as contacted'
   GROUP BY 1 
 )
 SELECT "date", dau, 
             (SELECT count(DISTINCT memberid)
-            FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID
+            FROM "Event" JOIN "InteractionType" ON "Event.interactiontypeID"="InteractionType.ID"
             WHERE action='mark as contacted' AND createdAt::DATE BETWEEN dau.date - 7 AND dau.date) 
             AS wau,
             (SELECT count(DISTINCT memberid)
-            FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID
+            FROM "Event" JOIN "InteractionType" ON "Event.interactiontypeID"="InteractionType.ID"
             WHERE action='mark as contacted' AND createdAt::DATE BETWEEN dau.date - 29 AND dau.date) 
             AS mau
 FROM dau;
