@@ -7,7 +7,7 @@ from pandas.plotting import register_matplotlib_converters
 register_matplotlib_converters()
 from matplotlib.ticker import MultipleLocator
 
-conn = p.connect(dbname='teamx', user='postgres', password='')
+conn = p.connect(host=('POSTGRES_HOST', 'teamx'), dbname=os.getenv('POSTGRES_DB', 'teamx'), user=os.getenv('POSTGRES_USER', 'postgres'), password=os.getenv('POSTGRES_PASSWORD', ''))
 cur = conn.cursor()
 
 # Graph 1 - % of users who have created a connection (CUMULATIVE)
