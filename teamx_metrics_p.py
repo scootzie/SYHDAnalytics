@@ -18,7 +18,7 @@ fig, ax = plt.subplots(nrows=2, ncols=3, figsize = (18, 8))
 cur.execute("""
 WITH mau AS (
     SELECT DISTINCT memberID
-    FROM Event JOIN Interaction ON Event.interactionID=Interaction.ID JOIN InteractionType ON Interaction.interactiontypeID=InteractionType.ID JOIN MEMBER ON Event.memberID=Member.ID
+    FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID JOIN MEMBER ON Event.memberID=Member.ID
     WHERE Event.createdAt::DATE >= now()::DATE - 29
 )
 SELECT device, COUNT(*)
@@ -63,7 +63,7 @@ ax[1, 0].axis('equal')
 cur.execute("""
 WITH mau AS (
     SELECT DISTINCT memberID
-    FROM Event JOIN Interaction ON Event.interactionID=Interaction.ID JOIN InteractionType ON Interaction.interactiontypeID=InteractionType.ID JOIN MEMBER ON Event.memberID=Member.ID
+    FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID JOIN MEMBER ON Event.memberID=Member.ID
     WHERE Event.createdAt::DATE >= now()::DATE - 29
 )
 SELECT os, COUNT(*)
@@ -108,7 +108,7 @@ ax[1, 1].axis('equal')
 cur.execute("""
 WITH mau AS (
     SELECT DISTINCT memberID
-    FROM Event JOIN Interaction ON Event.interactionID=Interaction.ID JOIN InteractionType ON Interaction.interactiontypeID=InteractionType.ID JOIN MEMBER ON Event.memberID=Member.ID
+    FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID JOIN MEMBER ON Event.memberID=Member.ID
     WHERE Event.createdAt::DATE >= now()::DATE - 29
 )
 SELECT version, COUNT(*)
