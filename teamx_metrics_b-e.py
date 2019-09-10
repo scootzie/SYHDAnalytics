@@ -13,7 +13,7 @@ cur = conn.cursor()
 
 cur.execute("""
 WITH dau AS (
-  SELECT createdAt::DATE AS "date", count(DISTINCT memberid) AS dau
+  SELECT "createdAt"::DATE AS "date", count(DISTINCT memberid) AS dau
   FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
   WHERE name='Open App'
   GROUP BY 1 
@@ -21,11 +21,11 @@ WITH dau AS (
 SELECT "date", dau, 
             (SELECT count(DISTINCT memberid)
             FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
-            WHERE name='Open App' AND createdAt::DATE BETWEEN dau.date - 7 AND dau.date) 
+            WHERE name='Open App' AND "createdAt"::DATE BETWEEN dau.date - 7 AND dau.date) 
             AS wau,
             (SELECT count(DISTINCT memberid)
             FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
-            WHERE name='Open App' AND createdAt::DATE BETWEEN dau.date - 29 AND dau.date) 
+            WHERE name='Open App' AND "createdAt"::DATE BETWEEN dau.date - 29 AND dau.date) 
             AS mau
 FROM dau
 """)

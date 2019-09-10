@@ -13,11 +13,11 @@ cur = conn.cursor()
 
 # Graph 1 - % of users who have created a connection (CUMULATIVE)
 cur.execute("""
-SELECT (SELECT COUNT(DISTINCT memberID)
+SELECT (SELECT COUNT(DISTINCT "memberID")
         FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
         WHERE name='Create Connection')
         AS "# of users w/ Connections", 
-        COUNT(DISTINCT memberID)
+        COUNT(DISTINCT "memberID")
         AS "# of total users"
 FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id";
 """)
@@ -37,13 +37,13 @@ ax[0].axis('equal')
 # Graph 2 - % of new users (in the last 30 days) who have created at least one connection
 cur.execute("""
 WITH IDsOfNewMembersToCreateConnection AS (
-    SELECT DISTINCT memberID AS id
+    SELECT DISTINCT "memberID" AS id
     FROM "Event" JOIN MEMBER ON "Event"."memberID"="Member"."id" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
     WHERE name='Create Connection' AND "Member"."createdAt"::DATE >= now()::DATE - 29
 )
 SELECT COUNT(*) AS numNewMembersToCreateAConnection, (SELECT COUNT(DISTINCT id)
         FROM MEMBER
-        WHERE createdAt::DATE >= now()::DATE - 29) AS numNewMembers
+        WHERE "createdAt"::DATE >= now()::DATE - 29) AS numNewMembers
 FROM IDsOfNewMembersToCreateConnection;
 """)
 rows1 = cur.fetchall()

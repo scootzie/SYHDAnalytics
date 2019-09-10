@@ -39,7 +39,7 @@ ax[0].axis('equal')
 cur.execute("""
 SELECT source, action, METHOD, COUNT(*)
 FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID
-WHERE name='Contact Connection' AND createdAt::DATE>now()::DATE-29
+WHERE name='Contact Connection' AND "createdAt"::DATE>now()::DATE-29
 GROUP BY source, METHOD, action
 ORDER BY 1;
 """)

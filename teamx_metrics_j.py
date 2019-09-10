@@ -13,11 +13,11 @@ cur = conn.cursor()
 
 cur.execute("""
 WITH AllMonths AS (
-SELECT date_trunc('month', generate_series(MIN(createdAt)::DATE, now()::DATE, INTERVAL '1 month')) AS somemonth
+SELECT date_trunc('month', generate_series(MIN("createdAt")::DATE, now()::DATE, INTERVAL '1 month')) AS somemonth
 FROM MEMBER
 )
 SELECT AllMonths.somemonth, COUNT(*) FILTER (WHERE notificationsEnabled=TRUE) AS numNotificationsEnabled, COUNT(*) FILTER (WHERE notificationsEnabled=FALSE) AS numNotificationsDisabled
-FROM AllMonths LEFT JOIN MEMBER ON AllMonths.somemonth = date_trunc('month', member.createdAt)
+FROM AllMonths LEFT JOIN MEMBER ON AllMonths.somemonth = date_trunc('month', member."createdAt")
 GROUP BY 1
 ORDER BY 1
 """)
@@ -64,7 +64,7 @@ ax[1].grid(color='gray', linestyle='--')
 
 cur.execute("""
 WITH dau AS (
-  SELECT createdAt::DATE AS "date", count(DISTINCT memberid) AS dau
+  SELECT "createdAt"::DATE AS "date", count(DISTINCT memberid) AS dau
   FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
   WHERE name='Open App'
   GROUP BY 1 

@@ -19,14 +19,14 @@ cur.execute("""
 WITH FinalConversions AS (
     WITH countMarkFinalPerDay AS (
         WITH OpenAppEventDay AS (
-            SELECT createdAt, memberID, numOfDueConnections
+            SELECT "createdAt", "memberID", "numOfDueConnections"
             FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id" JOIN "OpenAppTypeContext" ON "Event"."id" = "OpenAppTypeContext"."eventID"
             WHERE name='Open App' AND "OpenAppTypeContext"."numOfDueConnections">0
         )
-        SELECT OpenAppEventDay.createdAt::DATE AS "date",
+        SELECT OpenAppEventDay."createdAt"::DATE AS "date",
             (SELECT CASE WHEN COUNT(*)>0 THEN 1 ELSE 0 END
             FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id" LEFT JOIN "UpdateConnectionTypeContext" ON "Event"."id"="UpdateConnectionTypeContext"."eventID"
-            WHERE OpenAppEventDay.memberID = "Event"."memberID" AND name='Update Connection' AND action='mark as contacted' AND numOfDueConnections=0 AND "Event"."createdAt" BETWEEN OpenAppEventDay.createdAt AND OpenAppEventDay.createdAt + '1 hour'::INTERVAL
+            WHERE OpenAppEventDay."memberID" = "Event"."memberID" AND name='Update Connection' AND action='mark as contacted' AND "numOfDueConnections"=0 AND "Event"."createdAt" BETWEEN OpenAppEventDay."createdAt" AND OpenAppEventDay."createdAt" + '1 hour'::INTERVAL
             ) AS countMarkAsContact1HourNoDue
         FROM OpenAppEventDay
         ORDER BY 1
@@ -37,7 +37,7 @@ WITH FinalConversions AS (
     ORDER BY 1
 ),
 AllDates AS (
-    SELECT generate_series(MIN(createdAt)::DATE, now()::DATE, INTERVAL '1 day') AS someday
+    SELECT generate_series(MIN("createdAt")::DATE, now()::DATE, INTERVAL '1 day') AS someday
     FROM EVENT
 ),
 t1 AS(

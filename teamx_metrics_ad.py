@@ -19,14 +19,14 @@ cur.execute("""
 WITH FinalAvgs AS (
     WITH createExistsPerSesh AS (
         WITH searchBarEventSesh AS (
-            SELECT createdAt, memberID
+            SELECT "createdAt", "memberID"
             FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
             WHERE name='Search All Connections' AND action='use search bar'
         )
-        SELECT searchBarEventSesh.createdAt::DATE AS "date",
+        SELECT searchBarEventSesh."createdAt"::DATE AS "date",
             CASE WHEN (SELECT COUNT(*)
             FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
-            WHERE searchBarEventSesh.memberID = "Event"."memberID" AND name='Create Connection' AND "Event"."createdAt" BETWEEN searchBarEventSesh.createdAt AND searchBarEventSesh.createdAt + '1 hour'::INTERVAL
+            WHERE searchBarEventSesh."memberID" = "Event"."memberID" AND name='Create Connection' AND "Event"."createdAt" BETWEEN searchBarEventSesh."createdAt" AND searchBarEventSesh."createdAt" + '1 hour'::INTERVAL
             )>0 THEN 1 ELSE 0 END AS createExists1Hour
         FROM searchBarEventSesh
         ORDER BY 1
@@ -37,7 +37,7 @@ WITH FinalAvgs AS (
     ORDER BY 1
 ),
 AllDates AS (
-    SELECT generate_series(MIN(createdAt)::DATE, now()::DATE, INTERVAL '1 day') AS someday
+    SELECT generate_series(MIN("createdAt")::DATE, now()::DATE, INTERVAL '1 day') AS someday
     FROM EVENT
 ),
 t1 AS(

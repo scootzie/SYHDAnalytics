@@ -13,11 +13,11 @@ conn = p.connect(host=os.getenv('POSTGRES_HOST', 'http://127.0.0.1:5432'), dbnam
 cur = conn.cursor()
 cur.execute("""
 WITH AllDates AS (
-SELECT generate_series(MIN(createdAt)::DATE, now()::DATE, INTERVAL '1 day') AS someday
+SELECT generate_series(MIN("createdAt")::DATE, now()::DATE, INTERVAL '1 day') AS someday
 FROM MEMBER
 )
-SELECT AllDates.someday::DATE AS "date", COUNT(createdAt)
-FROM AllDates LEFT JOIN MEMBER ON AllDates.someday::DATE=member.createdAt::DATE
+SELECT AllDates.someday::DATE AS "date", COUNT("createdAt")
+FROM AllDates LEFT JOIN MEMBER ON AllDates.someday::DATE=member."createdAt"::DATE
 GROUP BY 1
 ORDER BY 1
 """)
@@ -32,11 +32,11 @@ for r in rows:
 cur.execute("""
 WITH newmembers AS(
     WITH AllDates AS (
-        SELECT generate_series(MIN(createdAt)::DATE, now()::DATE, INTERVAL '1 day') AS someday
+        SELECT generate_series(MIN("createdAt")::DATE, now()::DATE, INTERVAL '1 day') AS someday
         FROM MEMBER
     )
-    SELECT AllDates.someday::DATE AS "date", COUNT(createdAt)
-    FROM AllDates LEFT JOIN MEMBER ON AllDates.someday::DATE=member.createdAt::DATE
+    SELECT AllDates.someday::DATE AS "date", COUNT("createdAt")
+    FROM AllDates LEFT JOIN MEMBER ON AllDates.someday::DATE=member."createdAt"::DATE
     GROUP BY 1
     ORDER BY 1
 )

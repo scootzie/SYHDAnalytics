@@ -41,7 +41,7 @@ ax[0][0].axis('equal')
 cur.execute("""
 SELECT source, METHOD, COUNT(*)
 FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
-WHERE name='Update Connection' AND action='mark as contacted' AND createdAt::DATE>now()::DATE-29
+WHERE name='Update Connection' AND action='mark as contacted' AND "createdAt"::DATE>now()::DATE-29
 GROUP BY source, METHOD
 ORDER BY 1;
 """)
@@ -86,7 +86,7 @@ ax[0][1].axis('equal')
 cur.execute("""
 SELECT source, METHOD, COUNT(*)
 FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
-WHERE name='Contact Connection' AND action='send text message' AND createdAt::DATE>now()::DATE-29
+WHERE name='Contact Connection' AND action='send text message' AND "createdAt"::DATE>now()::DATE-29
 GROUP BY source, METHOD
 ORDER BY 1;
 """)
@@ -131,7 +131,7 @@ ax[0][2].axis('equal')
 cur.execute("""
 SELECT source, METHOD, COUNT(*)
 FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
-WHERE name='View Connection' AND action='view connection details' AND createdAt::DATE>now()::DATE-29
+WHERE name='View Connection' AND action='view connection details' AND "createdAt"::DATE>now()::DATE-29
 GROUP BY source, METHOD
 ORDER BY 1;
 """)

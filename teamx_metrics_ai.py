@@ -14,11 +14,11 @@ cur = conn.cursor()
 # 2 Graphs
 fig, ax = plt.subplots(nrows=2, ncols=1, figsize = (12,6))
 
-# Graph 1 - Total Open App numOfDueConnections Breakdown
+# Graph 1 - Total Open App "numOfDueConnections" Breakdown
 
 cur.execute("""
-SELECT COUNT(*) FILTER (WHERE numOfDueConnections>0) AS dueConnectionsCount,
-    COUNT(*) FILTER (WHERE numOfDueConnections=0) AS noDueConnectionsCount
+SELECT COUNT(*) FILTER (WHERE "numOfDueConnections">0) AS dueConnectionsCount,
+    COUNT(*) FILTER (WHERE "numOfDueConnections"=0) AS noDueConnectionsCount
 FROM "OpenAppTypeContext" """)
 rows = cur.fetchall()
 
@@ -32,20 +32,20 @@ ax[0].set_title("% Breakdown of Open App: Due Connections vs. No Due Connections
 ax[0].axis('equal')
 
 
-# Graph 2 - Last 30 Days Open App numOfDueConnections Breakdown
+# Graph 2 - Last 30 Days Open App "numOfDueConnections" Breakdown
 cur.execute("""
 WITH dau AS (
-  SELECT createdAt::DATE AS "date"
+  SELECT "createdAt"::DATE AS "date"
   FROM "Event" JOIN "OpenAppTypeContext" ON "Event"."id"="OpenAppTypeContext"."eventID"
   GROUP BY 1
   ORDER BY 1
 )
 SELECT "date",
-            (SELECT count(DISTINCT memberid) FILTER (WHERE numOfDueConnections>0)
+            (SELECT count(DISTINCT memberid) FILTER (WHERE "numOfDueConnections">0)
             FROM "Event" JOIN "OpenAppTypeContext" ON "Event"."id"="OpenAppTypeContext"."eventID"
             WHERE "Event"."createdAt"::DATE BETWEEN dau.date - 29 AND dau.date) 
             AS dueConnectionsCount,
-            (SELECT count(DISTINCT memberid) FILTER (WHERE numOfDueConnections=0)
+            (SELECT count(DISTINCT memberid) FILTER (WHERE "numOfDueConnections"=0)
             FROM "Event" JOIN "OpenAppTypeContext" ON "Event"."id"="OpenAppTypeContext"."eventID"
             WHERE "Event"."createdAt"::DATE BETWEEN dau.date - 29 AND dau.date) 
             AS noDueConnectionsCount

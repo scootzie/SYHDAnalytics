@@ -18,7 +18,7 @@ fig, ax = plt.subplots(nrows=2, ncols=3, figsize = (18, 8))
 # Graph 1 - Demographics Breakdown - Device (Last 30 Days)
 cur.execute("""
 WITH mau AS (
-    SELECT DISTINCT memberID
+    SELECT DISTINCT "memberID"
     FROM "Event" JOIN Interaction ON "Event"."interactionID"=Interaction.ID JOIN "InteractionType" ON Interaction.interactionTypeID="InteractionType"."id" JOIN MEMBER ON "Event"."memberID"="Member"."id"
     WHERE "Event"."createdAt"::DATE >= now()::DATE - 29
 )
@@ -63,7 +63,7 @@ ax[1, 0].axis('equal')
 # Graph 3 - Demographics Breakdown - OS (Last 30 Days)
 cur.execute("""
 WITH mau AS (
-    SELECT DISTINCT memberID
+    SELECT DISTINCT "memberID"
     FROM "Event" JOIN Interaction ON "Event"."interactionID"=Interaction.ID JOIN "InteractionType" ON Interaction.interactionTypeID="InteractionType"."id" JOIN MEMBER ON "Event"."memberID"="Member"."id"
     WHERE "Event"."createdAt"::DATE >= now()::DATE - 29
 )
@@ -108,7 +108,7 @@ ax[1, 1].axis('equal')
 # Graph 5 - Demographics Breakdown - Version (Last 30 Days)
 cur.execute("""
 WITH mau AS (
-    SELECT DISTINCT memberID
+    SELECT DISTINCT "memberID"
     FROM "Event" JOIN Interaction ON "Event"."interactionID"=Interaction.ID JOIN "InteractionType" ON Interaction.interactionTypeID="InteractionType"."id" JOIN MEMBER ON "Event"."memberID"="Member"."id"
     WHERE "Event"."createdAt"::DATE >= now()::DATE - 29
 )

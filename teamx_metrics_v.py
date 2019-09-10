@@ -15,7 +15,7 @@ fig, ax = plt.subplots(nrows=3, ncols=1, figsize = (16,6))
 
 # Graph 1 - Histogram of Hour of Day for Open App Events
 cur.execute("""
-SELECT EXTRACT(isodow from createdAt) as dayofweek, EXTRACT(HOUR from createdAt) as hour
+SELECT EXTRACT(isodow from "createdAt") as dayofweek, EXTRACT(HOUR from "createdAt") as hour
 FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
 WHERE name='Open App';
 """)
@@ -63,7 +63,7 @@ WITH AllDaysAndHours AS (
     ORDER BY dayofweek, hourofday
 ),
 OpenAppDaysAndTimes AS (
-    SELECT EXTRACT(isodow from createdAt) as dayofweek, EXTRACT(HOUR from createdAt) as hourofday, COUNT(*) AS numEvents
+    SELECT EXTRACT(isodow from "createdAt") as dayofweek, EXTRACT(HOUR from "createdAt") as hourofday, COUNT(*) AS numEvents
     FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
     WHERE name='Open App'
     GROUP BY 1, 2
