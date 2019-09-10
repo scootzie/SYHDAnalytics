@@ -15,7 +15,7 @@ cur = conn.cursor()
 # Graph 1 - % Breakdown (Cumulative) of contact connection source/method/action - Pie Chart
 cur.execute("""
 SELECT source, action, METHOD, COUNT(*)
-FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID
+FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
 WHERE name='Contact Connection'
 GROUP BY source, METHOD, action
 ORDER BY 1;
@@ -38,7 +38,7 @@ ax[0].axis('equal')
 # Graph 2 - % Breakdown (Last 30 Days) of contact connection source/method/action - Pie Chart
 cur.execute("""
 SELECT source, action, METHOD, COUNT(*)
-FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID
+FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
 WHERE name='Contact Connection' AND "createdAt"::DATE>now()::DATE-29
 GROUP BY source, METHOD, action
 ORDER BY 1;

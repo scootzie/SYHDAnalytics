@@ -41,11 +41,11 @@ WITH dau AS (
   ORDER BY 1
 )
 SELECT "date",
-            (SELECT count(DISTINCT memberid) FILTER (WHERE "numOfDueConnections">0)
+            (SELECT count(DISTINCT "memberID") FILTER (WHERE "numOfDueConnections">0)
             FROM "Event" JOIN "OpenAppTypeContext" ON "Event"."id"="OpenAppTypeContext"."eventID"
             WHERE "Event"."createdAt"::DATE BETWEEN dau.date - 29 AND dau.date) 
             AS dueConnectionsCount,
-            (SELECT count(DISTINCT memberid) FILTER (WHERE "numOfDueConnections"=0)
+            (SELECT count(DISTINCT "memberID") FILTER (WHERE "numOfDueConnections"=0)
             FROM "Event" JOIN "OpenAppTypeContext" ON "Event"."id"="OpenAppTypeContext"."eventID"
             WHERE "Event"."createdAt"::DATE BETWEEN dau.date - 29 AND dau.date) 
             AS noDueConnectionsCount

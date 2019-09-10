@@ -18,8 +18,8 @@ fig, ax = plt.subplots(nrows=2, ncols=2, figsize = (16,8))
 # Graph 1 - NOTIFICATIONS ENABLED - % Breakdown (Cumulative) of contact connection source/method/action - Pie Chart
 cur.execute("""
 SELECT source, action, METHOD, COUNT(*)
-FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id" JOIN MEMBER ON "Event"."memberID"="Member"."id"
-WHERE name='Contact Connection' AND notificationsEnabled=TRUE
+FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id" JOIN "Member" ON "Event"."memberID"="Member"."id"
+WHERE name='Contact Connection' AND "notificationsEnabled"=TRUE
 GROUP BY source, METHOD, action
 ORDER BY 1;
 """)
@@ -39,8 +39,8 @@ ax[0, 0].axis('equal')
 # Graph 2 - NOTIFICATIONS DISABLED - % Breakdown (Cumulative) of contact connection source/method/action - Pie Chart
 cur.execute("""
 SELECT source, action, METHOD, COUNT(*)
-FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id" JOIN MEMBER ON "Event"."memberID"="Member"."id"
-WHERE name='Contact Connection' AND notificationsEnabled=FALSE
+FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id" JOIN "Member" ON "Event"."memberID"="Member"."id"
+WHERE name='Contact Connection' AND "notificationsEnabled"=FALSE
 GROUP BY source, METHOD, action
 ORDER BY 1;
 """)
@@ -60,8 +60,8 @@ ax[0, 1].axis('equal')
 # Graph 3 - NOTIFICATIONS ENABLED - % Breakdown (Last 30 Days) of contact connection source/method/action - Pie Chart
 cur.execute("""
 SELECT source, action, METHOD, COUNT(*)
-FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id" JOIN MEMBER ON "Event"."memberID"="Member"."id"
-WHERE name='Contact Connection' AND notificationsEnabled=TRUE AND "Event"."createdAt"::DATE>now()::DATE-29
+FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id" JOIN "Member" ON "Event"."memberID"="Member"."id"
+WHERE name='Contact Connection' AND "notificationsEnabled"=TRUE AND "Event"."createdAt"::DATE>now()::DATE-29
 GROUP BY source, METHOD, action
 ORDER BY 1;
 """)
@@ -82,8 +82,8 @@ ax[1, 0].axis('equal')
 # Graph 4 - NOTIFICATIONS DISABLED - % Breakdown (Last 30 Days) of contact connection source/method/action - Pie Chart
 cur.execute("""
 SELECT source, action, METHOD, COUNT(*)
-FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id" JOIN MEMBER ON "Event"."memberID"="Member"."id"
-WHERE name='Contact Connection' AND notificationsEnabled=FALSE AND "Event"."createdAt"::DATE>now()::DATE-29
+FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id" JOIN "Member" ON "Event"."memberID"="Member"."id"
+WHERE name='Contact Connection' AND "notificationsEnabled"=FALSE AND "Event"."createdAt"::DATE>now()::DATE-29
 GROUP BY source, METHOD, action
 ORDER BY 1;
 """)

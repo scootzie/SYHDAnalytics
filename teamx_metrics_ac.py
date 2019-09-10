@@ -18,17 +18,17 @@ WITH CreateConnectionUsers AS(
     WHERE name='Create Connection'
     ),
 dau AS (
-    SELECT "createdAt"::DATE AS "date", count(DISTINCT "Event"."memberid") AS dau
+    SELECT "createdAt"::DATE AS "date", count(DISTINCT "Event"."memberID") AS dau
     FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id" JOIN CreateConnectionUsers ON "Event"."memberID"=CreateConnectionUsers."memberID"
     WHERE name='Open App'
     GROUP BY 1 
 )
 SELECT "date", dau, 
-            (SELECT count(DISTINCT "Event"."memberid")
+            (SELECT count(DISTINCT "Event"."memberID")
             FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id" JOIN CreateConnectionUsers ON "Event"."memberID"=CreateConnectionUsers."memberID"
             WHERE name='Open App' AND "createdAt"::DATE BETWEEN dau.date - 7 AND dau.date) 
             AS wau,
-            (SELECT count(DISTINCT "Event"."memberid")
+            (SELECT count(DISTINCT "Event"."memberID")
             FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id" JOIN CreateConnectionUsers ON "Event"."memberID"=CreateConnectionUsers."memberID"
             WHERE name='Open App' AND "createdAt"::DATE BETWEEN dau.date - 29 AND dau.date) 
             AS mau

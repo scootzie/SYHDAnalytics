@@ -20,7 +20,7 @@ WITH numConnectionsAdded AS (
         GROUP BY "memberID"
         ),
     numConnectionsDeleted AS (
-        SELECT "memberID", COUNT(name) AS "#deleted", MEMBERID-COUNT(name) AS "test"
+        SELECT "memberID", COUNT(name) AS "#deleted", "memberID"-COUNT(name) AS "test"
         FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
         WHERE name='Delete Connection'
         GROUP BY "memberID"
@@ -33,8 +33,11 @@ rows = cur.fetchall()
 nums = []
 for r in rows:
     nums.append(r[0])
-bins = np.max(nums)-1
-
+try:
+    bins = np.max(nums)-1
+except ValueError:
+    bins = 1
+    
 plt.figure(figsize=(10,6))
 plt.subplot(211)
 
@@ -72,7 +75,10 @@ rows = cur.fetchall()
 nums = []
 for r in rows:
     nums.append(r[0])
-bins = np.max(nums)-1
+try:
+    bins = np.max(nums)-1
+except ValueError:
+    bins = 1
 plt.subplot(212)
 
 plt.hist(nums, bins)

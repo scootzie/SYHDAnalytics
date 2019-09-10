@@ -38,7 +38,7 @@ WITH FinalAvgs AS (
 ),
 AllDates AS (
     SELECT generate_series(MIN("createdAt")::DATE, now()::DATE, INTERVAL '1 day') AS someday
-    FROM EVENT
+    FROM "Event"
 ),
 t1 AS(
 SELECT someday::DATE AS "date", CASE WHEN totalCreates IS NOT NULL THEN totalCreates ELSE 0 END AS totalCreates, CASE WHEN totalSearches IS NOT NULL THEN totalSearches ELSE 0 END AS totalSearches

@@ -14,10 +14,10 @@ cur = conn.cursor()
 cur.execute("""
 WITH AllMonths AS (
 SELECT date_trunc('month', generate_series(MIN("createdAt")::DATE, now()::DATE, INTERVAL '1 month')) AS somemonth
-FROM MEMBER
+FROM "Member"
 )
-SELECT AllMonths.somemonth, COUNT(*) FILTER (WHERE notificationsEnabled=TRUE) AS numNotificationsEnabled, COUNT(*) FILTER (WHERE notificationsEnabled=FALSE) AS numNotificationsDisabled
-FROM AllMonths LEFT JOIN MEMBER ON AllMonths.somemonth = date_trunc('month', member."createdAt")
+SELECT AllMonths.somemonth, COUNT(*) FILTER (WHERE "notificationsEnabled"=TRUE) AS numNotificationsEnabled, COUNT(*) FILTER (WHERE "notificationsEnabled"=FALSE) AS numNotificationsDisabled
+FROM AllMonths LEFT JOIN "Member" ON AllMonths.somemonth = date_trunc('month', "Member"."createdAt")
 GROUP BY 1
 ORDER BY 1
 """)
@@ -51,7 +51,7 @@ x = range(1, len(rows)+1)
 data = pd.DataFrame({'Percent Enabled': npe, 'Percent NOT Enabled': npd, }, index=x)
 data_perc = data.divide(data.sum(axis=1), axis=0)
 ax[1].stackplot(dates, data_perc['Percent Enabled'], data_perc['Percent NOT Enabled'], labels=['Percent Enabled', 'Percent NOT Enabled'])
-ax[1].set_title("Notification Permissions by Month of "Member" Creation")
+ax[1].set_title("Notification Permissions by Month of Member Creation")
 ax[1].legend(loc='lower left')
 ax[1].set(xlabel='Creation Date (Month)', ylabel='% of Members')
 # Make ticks on occurrences of each month:
@@ -64,18 +64,18 @@ ax[1].grid(color='gray', linestyle='--')
 
 cur.execute("""
 WITH dau AS (
-  SELECT "createdAt"::DATE AS "date", count(DISTINCT memberid) AS dau
+  SELECT "createdAt"::DATE AS "date", count(DISTINCT "memberID") AS dau
   FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
   WHERE name='Open App'
   GROUP BY 1 
 )
 SELECT "date",
-            (SELECT count(DISTINCT memberid) FILTER (WHERE notificationsEnabled=TRUE)
-            FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id" JOIN MEMBER ON "Event"."memberID"="Member"."id"
+            (SELECT count(DISTINCT "memberID") FILTER (WHERE "notificationsEnabled"=TRUE)
+            FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id" JOIN "Member" ON "Event"."memberID"="Member"."id"
             WHERE name='Open App' AND "Event"."createdAt"::DATE BETWEEN dau.date - 29 AND dau.date) 
             AS mauNotificationsEnabledCount,
-            (SELECT count(DISTINCT memberid) FILTER (WHERE notificationsEnabled=FALSE)
-            FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id" JOIN MEMBER ON "Event"."memberID"="Member"."id"
+            (SELECT count(DISTINCT "memberID") FILTER (WHERE "notificationsEnabled"=FALSE)
+            FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id" JOIN "Member" ON "Event"."memberID"="Member"."id"
             WHERE name='Open App' AND "Event"."createdAt"::DATE BETWEEN dau.date - 29 AND dau.date) 
             AS mauNotificationsDisabledCount
 FROM dau;

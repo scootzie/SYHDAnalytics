@@ -27,11 +27,11 @@ SELECT date, openAppCountDay, pullUpTabBarCountDay,
             FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
             WHERE action='view connection list' AND method='open tab bar' AND "createdAt"::DATE BETWEEN openAndPull1Day.date - 7 AND openAndPull1Day.date) 
             AS pullUpTabBarCount7Days,
-            (SELECT count(memberid)
+            (SELECT count("memberID")
             FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
             WHERE name='Open App' AND "createdAt"::DATE BETWEEN openAndPull1Day.date - 29 AND openAndPull1Day.date) 
             AS openAppCountMonth,
-            (SELECT count(memberid)
+            (SELECT count("memberID")
             FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
             WHERE action='view connection list' AND method='open tab bar' AND "createdAt"::DATE BETWEEN openAndPull1Day.date - 29 AND openAndPull1Day.date) 
             AS pullUpTabBarCountMonth

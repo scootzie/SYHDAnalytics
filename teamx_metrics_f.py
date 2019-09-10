@@ -14,10 +14,10 @@ cur = conn.cursor()
 cur.execute("""
 WITH AllDates AS (
 SELECT generate_series(MIN("createdAt")::DATE, now()::DATE, INTERVAL '1 day') AS someday
-FROM MEMBER
+FROM "Member"
 )
 SELECT AllDates.someday::DATE AS "date", COUNT("createdAt")
-FROM AllDates LEFT JOIN MEMBER ON AllDates.someday::DATE=member."createdAt"::DATE
+FROM AllDates LEFT JOIN "Member" ON AllDates.someday::DATE="Member"."createdAt"::DATE
 GROUP BY 1
 ORDER BY 1
 """)
@@ -33,10 +33,10 @@ cur.execute("""
 WITH newmembers AS(
     WITH AllDates AS (
         SELECT generate_series(MIN("createdAt")::DATE, now()::DATE, INTERVAL '1 day') AS someday
-        FROM MEMBER
+        FROM "Member"
     )
     SELECT AllDates.someday::DATE AS "date", COUNT("createdAt")
-    FROM AllDates LEFT JOIN MEMBER ON AllDates.someday::DATE=member."createdAt"::DATE
+    FROM AllDates LEFT JOIN "Member" ON AllDates.someday::DATE="Member"."createdAt"::DATE
     GROUP BY 1
     ORDER BY 1
 )

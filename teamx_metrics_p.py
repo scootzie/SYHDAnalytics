@@ -19,11 +19,11 @@ fig, ax = plt.subplots(nrows=2, ncols=3, figsize = (18, 8))
 cur.execute("""
 WITH mau AS (
     SELECT DISTINCT "memberID"
-    FROM "Event" JOIN Interaction ON "Event"."interactionID"=Interaction.ID JOIN "InteractionType" ON Interaction.interactionTypeID="InteractionType"."id" JOIN MEMBER ON "Event"."memberID"="Member"."id"
+    FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id" JOIN "Member" ON "Event"."memberID"="Member"."id"
     WHERE "Event"."createdAt"::DATE >= now()::DATE - 29
 )
 SELECT device, COUNT(*)
-FROM MEMBER JOIN mau ON member.id=mau.memberid
+FROM "Member" JOIN mau ON "Member".id=mau."memberID"
 GROUP BY device
 ORDER BY device DESC;
 """)
@@ -43,7 +43,7 @@ ax[0, 0].axis('equal')
 # Graph 2 - Demographics Breakdown - Device (All Members)
 cur.execute("""
 SELECT device, COUNT(*)
-FROM MEMBER
+FROM "Member"
 GROUP BY device
 ORDER BY device DESC;
 """)
@@ -64,11 +64,11 @@ ax[1, 0].axis('equal')
 cur.execute("""
 WITH mau AS (
     SELECT DISTINCT "memberID"
-    FROM "Event" JOIN Interaction ON "Event"."interactionID"=Interaction.ID JOIN "InteractionType" ON Interaction.interactionTypeID="InteractionType"."id" JOIN MEMBER ON "Event"."memberID"="Member"."id"
+    FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id" JOIN "Member" ON "Event"."memberID"="Member"."id"
     WHERE "Event"."createdAt"::DATE >= now()::DATE - 29
 )
 SELECT os, COUNT(*)
-FROM MEMBER JOIN mau ON member.id=mau.memberid
+FROM "Member" JOIN mau ON "Member".id=mau."memberID"
 GROUP BY os
 ORDER BY os DESC;
 """)
@@ -88,7 +88,7 @@ ax[0, 1].axis('equal')
 # Graph 4 - Demographics Breakdown - OS (All Members)
 cur.execute("""
 SELECT os, COUNT(*)
-FROM MEMBER
+FROM "Member"
 GROUP BY os
 ORDER BY os DESC;
 """)
@@ -109,11 +109,11 @@ ax[1, 1].axis('equal')
 cur.execute("""
 WITH mau AS (
     SELECT DISTINCT "memberID"
-    FROM "Event" JOIN Interaction ON "Event"."interactionID"=Interaction.ID JOIN "InteractionType" ON Interaction.interactionTypeID="InteractionType"."id" JOIN MEMBER ON "Event"."memberID"="Member"."id"
+    FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id" JOIN "Member" ON "Event"."memberID"="Member"."id"
     WHERE "Event"."createdAt"::DATE >= now()::DATE - 29
 )
 SELECT version, COUNT(*)
-FROM MEMBER JOIN mau ON member.id=mau.memberid
+FROM "Member" JOIN mau ON "Member".id=mau."memberID"
 GROUP BY version
 ORDER BY version DESC;
 """)
@@ -133,7 +133,7 @@ ax[0, 2].axis('equal')
 # Graph 6 - Demographics Breakdown - Version (All Members)
 cur.execute("""
 SELECT version, COUNT(*)
-FROM MEMBER
+FROM "Member"
 GROUP BY version
 ORDER BY version DESC;
 """)

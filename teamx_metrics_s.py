@@ -27,11 +27,11 @@ SELECT date, openAppCountDay, searchCountDay,
             FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
             WHERE action='use search bar' AND "createdAt"::DATE BETWEEN openAndSearch1Day.date - 7 AND openAndSearch1Day.date) 
             AS searchCount7Days,
-            (SELECT count(memberid)
+            (SELECT count("memberID")
             FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
             WHERE name='Open App' AND "createdAt"::DATE BETWEEN openAndSearch1Day.date - 29 AND openAndSearch1Day.date) 
             AS openAppCountMonth,
-            (SELECT count(memberid)
+            (SELECT count("memberID")
             FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
             WHERE action='use search bar' AND "createdAt"::DATE BETWEEN openAndSearch1Day.date - 29 AND openAndSearch1Day.date) 
             AS searchCountMonth

@@ -38,11 +38,11 @@ ax[0].axis('equal')
 cur.execute("""
 WITH IDsOfNewMembersToCreateConnection AS (
     SELECT DISTINCT "memberID" AS id
-    FROM "Event" JOIN MEMBER ON "Event"."memberID"="Member"."id" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
+    FROM "Event" JOIN "Member" ON "Event"."memberID"="Member"."id" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
     WHERE name='Create Connection' AND "Member"."createdAt"::DATE >= now()::DATE - 29
 )
 SELECT COUNT(*) AS numNewMembersToCreateAConnection, (SELECT COUNT(DISTINCT id)
-        FROM MEMBER
+        FROM "Member"
         WHERE "createdAt"::DATE >= now()::DATE - 29) AS numNewMembers
 FROM IDsOfNewMembersToCreateConnection;
 """)
@@ -54,7 +54,7 @@ if rows1[0][1] > 0:
 else:
     percent1 = 0
 other1 = 1-percent1
-labels1='NEW MEMBER HAS CREATED', 'NEW MEMBER HAS NOT CREATED'
+labels1='NEW "Member" HAS CREATED', 'NEW "Member" HAS NOT CREATED'
 
 ax[1].pie([percent1, other1], labels=labels1, autopct='%1.1f%%')
 ax[1].set_title("% of new users (in the last 30 days) who have created at least one connection")

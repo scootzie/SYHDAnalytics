@@ -38,7 +38,7 @@ WITH FinalAvgs AS (
 ),
 AllDates AS (
     SELECT generate_series(MIN("createdAt")::DATE, now()::DATE, INTERVAL '1 day') AS someday
-    FROM EVENT
+    FROM "Event"
 ),
 t1 AS(
     SELECT someday::DATE AS "date", CASE WHEN totalEvents IS NOT NULL THEN totalEvents ELSE 0 END AS totalEvents, CASE WHEN totalMembers IS NOT NULL THEN totalMembers ELSE 0 END AS totalMembers

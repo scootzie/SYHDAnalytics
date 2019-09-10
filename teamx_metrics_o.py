@@ -19,13 +19,13 @@ fig, ax = plt.subplots(nrows=2, ncols=1, figsize = (12, 6))
 cur.execute("""
 WITH createConnectionMembers AS (
     SELECT DISTINCT "Member"."id"
-    FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id" JOIN MEMBER ON "Event"."memberID"="Member"."id"
+    FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id" JOIN "Member" ON "Event"."memberID"="Member"."id"
     WHERE name='Create Connection'
 )
 SELECT COUNT(*) AS numMembersCreate, 
     (SELECT COUNT(DISTINCT createConnectionMembers.id) 
     FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id" JOIN createConnectionMembers ON "Event"."memberID"=createConnectionMembers.id
-    WHERE Interactiontype.name='Contact Connection') AS numMembersContact
+    WHERE "InteractionType".name='Contact Connection') AS numMembersContact
 FROM createConnectionMembers;
 """)
 
@@ -51,13 +51,13 @@ ax[0].set_title('# of Unique Members who Create Connection --> Contact Connectio
 cur.execute("""
 WITH createConnectionMembers AS (
     SELECT DISTINCT "Member"."id"
-    FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id" JOIN MEMBER ON "Event"."memberID"="Member"."id"
+    FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id" JOIN "Member" ON "Event"."memberID"="Member"."id"
     WHERE name='Create Connection' AND "Member"."createdAt"::DATE >= now()::DATE - 29
 )
 SELECT COUNT(*) AS numMembersCreate, 
     (SELECT COUNT(DISTINCT createConnectionMembers.id) 
     FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id" JOIN createConnectionMembers ON "Event"."memberID"=createConnectionMembers.id
-    WHERE Interactiontype.name='Contact Connection') AS numMembersContact
+    WHERE "InteractionType".name='Contact Connection') AS numMembersContact
 FROM createConnectionMembers;
 """)
 

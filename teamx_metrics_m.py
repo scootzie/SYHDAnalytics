@@ -27,11 +27,11 @@ SELECT date, startCountDay, createCountDay,
             FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
             WHERE name='Create Connection' AND "createdAt"::DATE BETWEEN startAndCreate1Day.date - 7 AND startAndCreate1Day.date) 
             AS createCount7Days,
-            (SELECT count(memberid)
+            (SELECT count("memberID")
             FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
             WHERE name='Start Connection Creation' AND "createdAt"::DATE BETWEEN startAndCreate1Day.date - 29 AND startAndCreate1Day.date) 
             AS startCountMonth,
-            (SELECT count(memberid)
+            (SELECT count("memberID")
             FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
             WHERE name='Create Connection' AND "createdAt"::DATE BETWEEN startAndCreate1Day.date - 29 AND startAndCreate1Day.date) 
             AS createCountMonth
