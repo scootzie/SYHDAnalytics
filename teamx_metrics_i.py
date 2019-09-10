@@ -15,13 +15,13 @@ cur = conn.cursor()
 cur.execute("""
 WITH numConnectionsAdded AS (
         SELECT memberID, COUNT(name) AS "#added"
-        FROM "Event" JOIN "InteractionType" ON "Event.interactiontypeID"="InteractionType.ID"
+        FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
         WHERE name='Create Connection'
         GROUP BY memberID
         ),
     numConnectionsDeleted AS (
         SELECT memberID, COUNT(name) AS "#deleted", MEMBERID-COUNT(name) AS "test"
-        FROM "Event" JOIN "InteractionType" ON "Event.interactiontypeID"="InteractionType.ID"
+        FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
         WHERE name='Delete Connection'
         GROUP BY memberID
 )
@@ -49,18 +49,18 @@ plt.grid(alpha=0.5)
 cur.execute("""
 WITH mau AS (
     SELECT DISTINCT memberID
-    FROM "Event" JOIN "InteractionType" ON "Event.interactiontypeID"="InteractionType.ID"
-    WHERE name='Open App' AND "Event.createdAt">now()::DATE-30
+    FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
+    WHERE name='Open App' AND "Event"."createdAt">now()::DATE-30
 ),
 numConnectionsAdded AS (
     SELECT memberID, COUNT(name) AS "#added"
-    FROM "Event" JOIN "InteractionType" ON "Event.interactiontypeID"="InteractionType.ID"
+    FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
     WHERE name='Create Connection'
     GROUP BY memberID
 ),
 numConnectionsDeleted AS (
     SELECT memberID, COUNT(name) AS "#deleted"
-    FROM "Event" JOIN "InteractionType" ON "Event.interactiontypeID"="InteractionType.ID"
+    FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
     WHERE name='Delete Connection'
     GROUP BY memberID
 )

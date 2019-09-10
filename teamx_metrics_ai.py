@@ -36,18 +36,18 @@ ax[0].axis('equal')
 cur.execute("""
 WITH dau AS (
   SELECT createdAt::DATE AS "date"
-  FROM "Event" JOIN "OpenAppTypeContext" ON "Event.id"="OpenAppTypeContext.eventID"
+  FROM "Event" JOIN "OpenAppTypeContext" ON "Event"."id"="OpenAppTypeContext"."eventID"
   GROUP BY 1
   ORDER BY 1
 )
 SELECT "date",
             (SELECT count(DISTINCT memberid) FILTER (WHERE numOfDueConnections>0)
-            FROM "Event" JOIN "OpenAppTypeContext" ON "Event.id"="OpenAppTypeContext.eventID"
-            WHERE "Event.createdAt"::DATE BETWEEN dau.date - 29 AND dau.date) 
+            FROM "Event" JOIN "OpenAppTypeContext" ON "Event"."id"="OpenAppTypeContext"."eventID"
+            WHERE "Event"."createdAt"::DATE BETWEEN dau.date - 29 AND dau.date) 
             AS dueConnectionsCount,
             (SELECT count(DISTINCT memberid) FILTER (WHERE numOfDueConnections=0)
-            FROM "Event" JOIN "OpenAppTypeContext" ON "Event.id"="OpenAppTypeContext.eventID"
-            WHERE "Event.createdAt"::DATE BETWEEN dau.date - 29 AND dau.date) 
+            FROM "Event" JOIN "OpenAppTypeContext" ON "Event"."id"="OpenAppTypeContext"."eventID"
+            WHERE "Event"."createdAt"::DATE BETWEEN dau.date - 29 AND dau.date) 
             AS noDueConnectionsCount
 FROM dau;
 """)

@@ -20,13 +20,13 @@ WITH FinalAvgs AS (
     WITH createExistsPerSesh AS (
         WITH searchBarEventSesh AS (
             SELECT createdAt, memberID
-            FROM "Event" JOIN "InteractionType" ON "Event.interactiontypeID"="InteractionType.ID"
+            FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
             WHERE name='Search All Connections' AND action='use search bar'
         )
         SELECT searchBarEventSesh.createdAt::DATE AS "date",
             CASE WHEN (SELECT COUNT(*)
-            FROM "Event" JOIN "InteractionType" ON "Event.interactiontypeID"="InteractionType.ID"
-            WHERE searchBarEventSesh.memberID = "Event.memberID" AND name='Create Connection' AND "Event.createdAt" BETWEEN searchBarEventSesh.createdAt AND searchBarEventSesh.createdAt + '1 hour'::INTERVAL
+            FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
+            WHERE searchBarEventSesh.memberID = "Event"."memberID" AND name='Create Connection' AND "Event"."createdAt" BETWEEN searchBarEventSesh.createdAt AND searchBarEventSesh.createdAt + '1 hour'::INTERVAL
             )>0 THEN 1 ELSE 0 END AS createExists1Hour
         FROM searchBarEventSesh
         ORDER BY 1

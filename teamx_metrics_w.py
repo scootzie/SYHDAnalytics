@@ -14,12 +14,12 @@ cur = conn.cursor()
 # Graph 1 - % Breakdown (Cumulative) of contact connection source/method/action - Pie Chart
 cur.execute("""
 SELECT (SELECT COUNT(DISTINCT memberID)
-        FROM "Event" JOIN "InteractionType" ON "Event.interactiontypeID"="InteractionType.ID"
+        FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
         WHERE action='change reminder frequency') 
         AS "# of users to change reminder freq",
         COUNT(DISTINCT memberID)
         AS "# of users w/ Connections"
-FROM "Event" JOIN "InteractionType" ON "Event.interactiontypeID"="InteractionType.ID"
+FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
 WHERE name='Open App';
 """)
 
@@ -40,25 +40,25 @@ ax[0][0].axis('equal')
 cur.execute("""
 WITH openAndChangeFreqMembers1Day AS (
   SELECT createdAt::DATE AS "date", COUNT(DISTINCT memberID) FILTER(WHERE name='Open App') AS openAppCountDay, COUNT(DISTINCT memberID) FILTER(WHERE action='change reminder frequency') AS changeReminderFrequencyMemberCountDay
-  FROM "Event" JOIN "InteractionType" ON "Event.interactiontypeID"="InteractionType.ID"
+  FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
   WHERE name='Open App' OR action='change reminder frequency'
   GROUP BY 1 
 )
 SELECT date, openAppCountDay, changeReminderFrequencyMemberCountDay, 
             (SELECT count(DISTINCT memberID)
-            FROM "Event" JOIN "InteractionType" ON "Event.interactiontypeID"="InteractionType.ID"
+            FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
             WHERE name='Open App' AND createdAt::DATE BETWEEN openAndChangeFreqMembers1Day.date - 7 AND openAndChangeFreqMembers1Day.date) 
             AS openAppCount7Days,
             (SELECT count(DISTINCT memberID)
-            FROM "Event" JOIN "InteractionType" ON "Event.interactiontypeID"="InteractionType.ID"
+            FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
             WHERE action='change reminder frequency' AND createdAt::DATE BETWEEN openAndChangeFreqMembers1Day.date - 7 AND openAndChangeFreqMembers1Day.date) 
             AS changeReminderFrequencyMember7Days,
             (SELECT count(DISTINCT memberID)
-            FROM "Event" JOIN "InteractionType" ON "Event.interactiontypeID"="InteractionType.ID"
+            FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
             WHERE name='Open App' AND createdAt::DATE BETWEEN openAndChangeFreqMembers1Day.date - 29 AND openAndChangeFreqMembers1Day.date) 
             AS openAppCountMonth,
             (SELECT count(DISTINCT memberID)
-            FROM "Event" JOIN "InteractionType" ON "Event.interactiontypeID"="InteractionType.ID"
+            FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
             WHERE action='change reminder frequency' AND createdAt::DATE BETWEEN openAndChangeFreqMembers1Day.date - 29 AND openAndChangeFreqMembers1Day.date) 
             AS changeReminderFrequencyMemberCountMonth
 FROM openAndChangeFreqMembers1Day;

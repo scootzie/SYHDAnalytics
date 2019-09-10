@@ -14,25 +14,25 @@ cur = conn.cursor()
 cur.execute("""
 WITH startAndCreate1Day AS (
   SELECT createdAt::DATE AS "date", COUNT(*) FILTER(WHERE name='Start Connection Creation') AS startCountDay, COUNT(*) FILTER(WHERE name='Create Connection') AS createCountDay
-  FROM "Event" JOIN "InteractionType" ON "Event.interactiontypeID"="InteractionType.ID"
+  FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
   WHERE name='Start Connection Creation' OR name='Create Connection'
   GROUP BY 1 
 )
 SELECT date, startCountDay, createCountDay, 
             (SELECT count(*)
-            FROM "Event" JOIN "InteractionType" ON "Event.interactiontypeID"="InteractionType.ID"
+            FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
             WHERE name='Start Connection Creation' AND createdAt::DATE BETWEEN startAndCreate1Day.date - 7 AND startAndCreate1Day.date) 
             AS startCount7Days,
             (SELECT count(*)
-            FROM "Event" JOIN "InteractionType" ON "Event.interactiontypeID"="InteractionType.ID"
+            FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
             WHERE name='Create Connection' AND createdAt::DATE BETWEEN startAndCreate1Day.date - 7 AND startAndCreate1Day.date) 
             AS createCount7Days,
             (SELECT count(memberid)
-            FROM "Event" JOIN "InteractionType" ON "Event.interactiontypeID"="InteractionType.ID"
+            FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
             WHERE name='Start Connection Creation' AND createdAt::DATE BETWEEN startAndCreate1Day.date - 29 AND startAndCreate1Day.date) 
             AS startCountMonth,
             (SELECT count(memberid)
-            FROM "Event" JOIN "InteractionType" ON "Event.interactiontypeID"="InteractionType.ID"
+            FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
             WHERE name='Create Connection' AND createdAt::DATE BETWEEN startAndCreate1Day.date - 29 AND startAndCreate1Day.date) 
             AS createCountMonth
 FROM startAndCreate1Day;
