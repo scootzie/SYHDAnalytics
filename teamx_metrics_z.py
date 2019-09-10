@@ -19,9 +19,9 @@ cur.execute("""
 WITH FinalAvgs AS (
     WITH AvgMarkPerDay AS (
         WITH OpenAppEventDay AS (
-            SELECT "createdAt", "memberID", "numOfDueConnections"
+            SELECT "createdAt", "memberID", "numberOfDueConnections"
             FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id" JOIN "OpenAppTypeContext" ON "Event"."id" = "OpenAppTypeContext"."eventID"
-            WHERE name='Open App' AND "OpenAppTypeContext"."numOfDueConnections"=0
+            WHERE name='Open App' AND "OpenAppTypeContext"."numberOfDueConnections"=0
         )
         SELECT OpenAppEventDay."createdAt"::DATE AS "date",
             (SELECT COUNT(*)
@@ -58,9 +58,9 @@ cur.execute("""
 WITH FinalAvgs AS (
     WITH AvgMarkPerDay AS (
         WITH OpenAppEventDay AS (
-            SELECT "createdAt", "memberID", "numOfDueConnections"
+            SELECT "createdAt", "memberID", "numberOfDueConnections"
             FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id" JOIN "OpenAppTypeContext" ON "Event"."id" = "OpenAppTypeContext"."eventID"
-            WHERE name='Open App' AND "OpenAppTypeContext"."numOfDueConnections">0
+            WHERE name='Open App' AND "OpenAppTypeContext"."numberOfDueConnections">0
         )
         SELECT OpenAppEventDay."createdAt"::DATE AS "date",
             (SELECT COUNT(*)
