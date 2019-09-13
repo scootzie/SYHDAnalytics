@@ -19,14 +19,14 @@ cur.execute("""
 WITH FinalAvgs AS (
     WITH AvgMarkPerDay AS (
         WITH OpenAppEventDay AS (
-            SELECT createdAt, memberID
-            FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID
+            SELECT "createdAt", "memberID"
+            FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
             WHERE name='Update Connection' AND action='mark as contacted'
         )
-        SELECT OpenAppEventDay.createdAt::DATE AS "date",
+        SELECT OpenAppEventDay."createdAt"::DATE AS "date",
             (SELECT COUNT(*)
-            FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID
-            WHERE OpenAppEventDay.memberID = Event.memberID AND name='Update Connection' AND action='mark as contacted' AND Event.createdAt BETWEEN OpenAppEventDay.createdAt AND OpenAppEventDay.createdAt + '1 hour'::INTERVAL
+            FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
+            WHERE OpenAppEventDay."memberID" = "Event"."memberID" AND name='Update Connection' AND action='mark as contacted' AND "Event"."createdAt" BETWEEN OpenAppEventDay."createdAt" AND OpenAppEventDay."createdAt" + '1 hour'::INTERVAL
             ) AS countMarkAsContact1HourNoDue
         FROM OpenAppEventDay
         ORDER BY 1
@@ -37,8 +37,8 @@ WITH FinalAvgs AS (
     ORDER BY 1
 ),
 AllDates AS (
-    SELECT generate_series(MIN(createdAt)::DATE, now()::DATE, INTERVAL '1 day') AS someday
-    FROM EVENT
+    SELECT generate_series(MIN("createdAt")::DATE, now()::DATE, INTERVAL '1 day') AS someday
+    FROM "Event"
 ),
 t1 AS(
     SELECT someday::DATE AS "date", CASE WHEN totalEvents IS NOT NULL THEN totalEvents ELSE 0 END AS totalEvents, CASE WHEN totalMembers IS NOT NULL THEN totalMembers ELSE 0 END AS totalMembers

@@ -14,27 +14,30 @@ cur = conn.cursor()
 # Graph 1 - Histogram of All Member's # of Connections (CUMULATIVE)
 cur.execute("""
 WITH numConnectionsAdded AS (
-        SELECT memberID, COUNT(name) AS "#added"
-        FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID
+        SELECT "memberID", COUNT(name) AS "#added"
+        FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
         WHERE name='Create Connection'
-        GROUP BY memberID
+        GROUP BY "memberID"
         ),
     numConnectionsDeleted AS (
-        SELECT memberID, COUNT(name) AS "#deleted", MEMBERID-COUNT(name) AS "test"
-        FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID
+        SELECT "memberID", COUNT(name) AS "#deleted", "memberID"-COUNT(name) AS "test"
+        FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
         WHERE name='Delete Connection'
-        GROUP BY memberID
+        GROUP BY "memberID"
 )
 SELECT CASE WHEN "#deleted" IS NULL THEN "#added" ELSE "#added"-"#deleted" END AS "# of connections"
-FROM numConnectionsAdded LEFT JOIN numConnectionsDeleted ON numConnectionsAdded.memberID=numConnectionsDeleted.memberID;
+FROM numConnectionsAdded LEFT JOIN numConnectionsDeleted ON numConnectionsAdded."memberID"=numConnectionsDeleted."memberID";
 """)
 rows = cur.fetchall()
 
 nums = []
 for r in rows:
     nums.append(r[0])
-bins = np.max(nums)-1
-
+try:
+    bins = np.max(nums)-1
+except ValueError:
+    bins = 1
+    
 plt.figure(figsize=(10,6))
 plt.subplot(211)
 
@@ -48,31 +51,34 @@ plt.grid(alpha=0.5)
 # Graph 2 - Histogram of All Member's # of Connections (MAUs)
 cur.execute("""
 WITH mau AS (
-    SELECT DISTINCT memberID
-    FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID
-    WHERE name='Open App' AND Event.createdAt>now()::DATE-30
+    SELECT DISTINCT "memberID"
+    FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
+    WHERE name='Open App' AND "Event"."createdAt">now()::DATE-30
 ),
 numConnectionsAdded AS (
-    SELECT memberID, COUNT(name) AS "#added"
-    FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID
+    SELECT "memberID", COUNT(name) AS "#added"
+    FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
     WHERE name='Create Connection'
-    GROUP BY memberID
+    GROUP BY "memberID"
 ),
 numConnectionsDeleted AS (
-    SELECT memberID, COUNT(name) AS "#deleted"
-    FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID
+    SELECT "memberID", COUNT(name) AS "#deleted"
+    FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
     WHERE name='Delete Connection'
-    GROUP BY memberID
+    GROUP BY "memberID"
 )
 SELECT CASE WHEN "#deleted" IS NULL THEN "#added" ELSE "#added"-"#deleted" END AS "# of connections"
-FROM numConnectionsAdded LEFT JOIN numConnectionsDeleted ON numConnectionsAdded.memberID=numConnectionsDeleted.memberID JOIN mau ON numConnectionsAdded.memberID=mau.memberID;
+FROM numConnectionsAdded LEFT JOIN numConnectionsDeleted ON numConnectionsAdded."memberID"=numConnectionsDeleted."memberID" JOIN mau ON numConnectionsAdded."memberID"=mau."memberID";
 """)
 rows = cur.fetchall()
 
 nums = []
 for r in rows:
     nums.append(r[0])
-bins = np.max(nums)-1
+try:
+    bins = np.max(nums)-1
+except ValueError:
+    bins = 1
 plt.subplot(212)
 
 plt.hist(nums, bins)

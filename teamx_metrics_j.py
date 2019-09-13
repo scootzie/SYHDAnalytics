@@ -13,11 +13,11 @@ cur = conn.cursor()
 
 cur.execute("""
 WITH AllMonths AS (
-SELECT date_trunc('month', generate_series(MIN(createdAt)::DATE, now()::DATE, INTERVAL '1 month')) AS somemonth
-FROM MEMBER
+SELECT date_trunc('month', generate_series(MIN("createdAt")::DATE, now()::DATE, INTERVAL '1 month')) AS somemonth
+FROM "Member"
 )
-SELECT AllMonths.somemonth, COUNT(*) FILTER (WHERE notificationsEnabled=TRUE) AS numNotificationsEnabled, COUNT(*) FILTER (WHERE notificationsEnabled=FALSE) AS numNotificationsDisabled
-FROM AllMonths LEFT JOIN MEMBER ON AllMonths.somemonth = date_trunc('month', member.createdAt)
+SELECT AllMonths.somemonth, COUNT(*) FILTER (WHERE "notificationsEnabled"=TRUE) AS numNotificationsEnabled, COUNT(*) FILTER (WHERE "notificationsEnabled"=FALSE) AS numNotificationsDisabled
+FROM AllMonths LEFT JOIN "Member" ON AllMonths.somemonth = date_trunc('month', "Member"."createdAt")
 GROUP BY 1
 ORDER BY 1
 """)
@@ -64,19 +64,19 @@ ax[1].grid(color='gray', linestyle='--')
 
 cur.execute("""
 WITH dau AS (
-  SELECT createdAt::DATE AS "date", count(DISTINCT memberid) AS dau
-  FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID
+  SELECT "createdAt"::DATE AS "date", count(DISTINCT "memberID") AS dau
+  FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id"
   WHERE name='Open App'
   GROUP BY 1 
 )
 SELECT "date",
-            (SELECT count(DISTINCT memberid) FILTER (WHERE notificationsEnabled=TRUE)
-            FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID JOIN MEMBER ON Event.memberID=Member.id
-            WHERE name='Open App' AND Event.createdAt::DATE BETWEEN dau.date - 29 AND dau.date) 
+            (SELECT count(DISTINCT "memberID") FILTER (WHERE "notificationsEnabled"=TRUE)
+            FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id" JOIN "Member" ON "Event"."memberID"="Member"."id"
+            WHERE name='Open App' AND "Event"."createdAt"::DATE BETWEEN dau.date - 29 AND dau.date) 
             AS mauNotificationsEnabledCount,
-            (SELECT count(DISTINCT memberid) FILTER (WHERE notificationsEnabled=FALSE)
-            FROM Event JOIN InteractionType ON Event.interactiontypeID=InteractionType.ID JOIN MEMBER ON Event.memberID=Member.id
-            WHERE name='Open App' AND Event.createdAt::DATE BETWEEN dau.date - 29 AND dau.date) 
+            (SELECT count(DISTINCT "memberID") FILTER (WHERE "notificationsEnabled"=FALSE)
+            FROM "Event" JOIN "InteractionType" ON "Event"."interactionTypeID"="InteractionType"."id" JOIN "Member" ON "Event"."memberID"="Member"."id"
+            WHERE name='Open App' AND "Event"."createdAt"::DATE BETWEEN dau.date - 29 AND dau.date) 
             AS mauNotificationsDisabledCount
 FROM dau;
 """)

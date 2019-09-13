@@ -5,7 +5,7 @@ app = Flask(__name__)
  
  
 @app.route('/')
-def hello_whale():
+def analytics_reports():
     return metrics.generate_reports()
  
 if __name__ == '__main__':
