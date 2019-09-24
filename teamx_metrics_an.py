@@ -78,7 +78,7 @@ ax[1].grid(color='gray', linestyle='--')
 
 #plt.show()
 def saveFile(folderName):
-    fileName = '/Create Connection Breakdown by True:False.pdf'
+    fileName = '/Create Connection Breakdown by Has Connection Image True:False.pdf'
     plt.savefig(folderName + fileName)
     plt.close(fig)
 
