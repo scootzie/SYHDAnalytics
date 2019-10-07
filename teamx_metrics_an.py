@@ -17,9 +17,9 @@ fig, ax = plt.subplots(nrows=2, ncols=1, figsize = (12,6))
 # Graph 1 - Total Create Connection "hasConnectionImage" Breakdown
 
 cur.execute("""
-SELECT COUNT(*) FILTER (WHERE hasConnectionImage=TRUE) AS connectionImages,
-    COUNT(*) FILTER (WHERE hasConnectionImage=FALSE) AS noConnectionImages
-FROM createConnectionTypeContext """)
+SELECT COUNT(*) FILTER (WHERE "hasConnectionImage"=TRUE) AS connectionImages,
+    COUNT(*) FILTER (WHERE "hasConnectionImage"=FALSE) AS noConnectionImages
+FROM "CreateConnectionTypeContext" """)
 rows = cur.fetchall()
 
 totalDue = rows[0][0]
@@ -35,19 +35,19 @@ ax[0].axis('equal')
 # Graph 2 - Last 30 Days Create Connection "hasConnectionImage" Breakdown
 cur.execute("""
 WITH dau AS (
-  SELECT createdAt::DATE AS "date"
-  FROM Event JOIN CreateConnectionTypeContext ON Event.id=CreateConnectionTypeContext.eventID
+  SELECT "createdAt"::DATE AS "date"
+  FROM "Event" JOIN "CreateConnectionTypeContext" ON "Event".id="CreateConnectionTypeContext"."eventID"
   GROUP BY 1
   ORDER BY 1
 )
 SELECT "date",
-            (SELECT count(*) FILTER (WHERE hasConnectionImage=TRUE)
-            FROM Event JOIN CreateConnectionTypeContext ON Event.id=CreateConnectionTypeContext.eventID
-            WHERE Event.createdAt::DATE BETWEEN dau.date - 29 AND dau.date) 
+            (SELECT count(*) FILTER (WHERE "hasConnectionImage"=TRUE)
+            FROM "Event" JOIN "CreateConnectionTypeContext" ON "Event".id="CreateConnectionTypeContext"."eventID"
+            WHERE "Event"."createdAt"::DATE BETWEEN dau.date - 29 AND dau.date) 
             AS connectionImages,
-            (SELECT count(*) FILTER (WHERE hasConnectionImage=FALSE)
-            FROM Event JOIN CreateConnectionTypeContext ON Event.id=CreateConnectionTypeContext.eventID
-            WHERE Event.createdAt::DATE BETWEEN dau.date - 29 AND dau.date) 
+            (SELECT count(*) FILTER (WHERE "hasConnectionImage"=FALSE)
+            FROM "Event" JOIN "CreateConnectionTypeContext" ON "Event".id="CreateConnectionTypeContext"."eventID"
+            WHERE "Event"."createdAt"::DATE BETWEEN dau.date - 29 AND dau.date) 
             AS noConnectionImages
 FROM dau;
 """)
