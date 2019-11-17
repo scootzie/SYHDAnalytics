@@ -1,16 +1,14 @@
 import os
-from datetime import datetime
-import importlib
 
 
-def createSection(folderName):
-    subfolderName = folderName + '/Contact Connection AND Mark as Contacted Stats'
-    os.mkdir(subfolderName)
+def create_section(folder_name):
+    subfolder_name = folder_name + '/Contact Connection AND Mark as Contacted Stats'
+    os.mkdir(subfolder_name)
     import teamx_metrics_k as k
-    k.saveFile(subfolderName)
+    k.saveFile(subfolder_name)
     import teamx_metrics_l as l
-    l.saveFile(subfolderName)
+    l.saveFile(subfolder_name)
     import teamx_metrics_o as o
-    o.saveFile(subfolderName)
+    o.saveFile(subfolder_name)
     import teamx_metrics_aa as aa
-    aa.saveFile(subfolderName)
+    aa.saveFile(subfolder_name)

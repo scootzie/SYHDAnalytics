@@ -1,21 +1,20 @@
-import os
-from datetime import datetime
 import importlib
+import os
 
 
-def createSection(folderName):
-    subfolderName = folderName + '/App Usage, Retention, and Demographics'
-    os.mkdir(subfolderName)
+def create_section(folder_name):
+    subfolder_name = folder_name + '/App Usage, Retention, and Demographics'
+    os.mkdir(subfolder_name)
     b2e = importlib.import_module("teamx_metrics_b-e")
-    b2e.saveFile(subfolderName)
+    b2e.saveFile(subfolder_name)
     import teamx_metrics_v as v
-    v.saveFile(subfolderName)
-    v.saveFile2(subfolderName)
+    v.saveFile(subfolder_name)
+    v.saveFile2(subfolder_name)
     import teamx_metrics_t as t
-    t.saveFile(subfolderName)
+    t.saveFile(subfolder_name)
     import teamx_metrics_u as u
-    u.saveFile(subfolderName)
+    u.saveFile(subfolder_name)
     import teamx_metrics_ac as ac
-    ac.saveFile(subfolderName)
+    ac.saveFile(subfolder_name)
     import teamx_metrics_p as p
-    p.saveFile(subfolderName)
+    p.saveFile(subfolder_name)

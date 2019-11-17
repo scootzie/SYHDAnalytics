@@ -1,12 +1,10 @@
 import os
-from datetime import datetime
-import importlib
 
 
-def createSection(folderName):
-    subfolderName = folderName + '/Reminder Frequency Stats'
-    os.mkdir(subfolderName)
+def create_section(folder_name):
+    subfolder_name = folder_name + '/Reminder Frequency Stats'
+    os.mkdir(subfolder_name)
     import teamx_metrics_x as x
-    x.saveFile(subfolderName)
+    x.saveFile(subfolder_name)
     import teamx_metrics_w as w
-    w.saveFile(subfolderName)
+    w.saveFile(subfolder_name)

@@ -1,12 +1,10 @@
 import os
-from datetime import datetime
-import importlib
 
 
-def createSection(folderName):
-    subfolderName = folderName + '/Notifications Effectiveness'
-    os.mkdir(subfolderName)
+def create_section(folder_name):
+    subfolder_name = folder_name + '/Notifications Effectiveness'
+    os.mkdir(subfolder_name)
     import teamx_metrics_n1 as n1
-    n1.saveFile(subfolderName)
+    n1.saveFile(subfolder_name)
     import teamx_metrics_n2 as n2
-    n2.saveFile(subfolderName)
+    n2.saveFile(subfolder_name)

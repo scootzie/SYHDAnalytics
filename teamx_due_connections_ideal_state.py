@@ -1,14 +1,12 @@
 import os
-from datetime import datetime
-import importlib
 
 
-def createSection(folderName):
-    subfolderName = folderName + '/Impact of Due Connections and Ideal State'
-    os.mkdir(subfolderName)
+def create_section(folder_name):
+    subfolder_name = folder_name + '/Impact of Due Connections and Ideal State'
+    os.mkdir(subfolder_name)
     import teamx_metrics_ai as ai
-    ai.saveFile(subfolderName)
+    ai.saveFile(subfolder_name)
     import teamx_metrics_ah as ah
-    ah.saveFile(subfolderName)
+    ah.saveFile(subfolder_name)
     import teamx_metrics_z as z
-    z.saveFile(subfolderName)
+    z.saveFile(subfolder_name)

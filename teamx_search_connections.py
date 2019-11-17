@@ -1,12 +1,10 @@
 import os
-from datetime import datetime
-import importlib
 
 
-def createSection(folderName):
-    subfolderName = folderName + '/Search Connections Stats'
-    os.mkdir(subfolderName)
+def create_section(folder_name):
+    subfolder_name = folder_name + '/Search Connections Stats'
+    os.mkdir(subfolder_name)
     import teamx_metrics_r as r
-    r.saveFile(subfolderName)
+    r.saveFile(subfolder_name)
     import teamx_metrics_s as s
-    s.saveFile(subfolderName)
+    s.saveFile(subfolder_name)

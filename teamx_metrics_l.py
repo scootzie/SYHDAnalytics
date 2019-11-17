@@ -1,14 +1,14 @@
 import os
-import psycopg2 as p
-import numpy as np
-import pandas as pd
-from matplotlib import pyplot as plt
-from matplotlib import dates as mdates
-from pandas.plotting import register_matplotlib_converters
-register_matplotlib_converters()
-from matplotlib.ticker import MultipleLocator
 
-conn = p.connect(host=os.getenv('POSTGRES_HOST', 'http://127.0.0.1:5432'), dbname=os.getenv('POSTGRES_DB', 'teamx'), user=os.getenv('POSTGRES_USER', 'postgres'), password=os.getenv('POSTGRES_PASSWORD', ''))
+import psycopg2 as p
+from matplotlib import pyplot as plt
+from pandas.plotting import register_matplotlib_converters
+
+import constants
+
+register_matplotlib_converters()
+
+conn = p.connect(host=os.getenv('POSTGRES_HOST', constants.database_url), dbname=os.getenv('POSTGRES_DB', constants.database_name), user=os.getenv('POSTGRES_USER', constants.database_user), password=os.getenv('POSTGRES_PASSWORD', constants.database_password))
 cur = conn.cursor()
 
 

@@ -1,14 +1,12 @@
 import os
-from datetime import datetime
-import importlib
 
 
-def createSection(folderName):
-    subfolderName = folderName + '/Create Connection Stats'
-    os.mkdir(subfolderName)
+def create_section(folder_name):
+    subfolder_name = folder_name + '/Create Connection Stats'
+    os.mkdir(subfolder_name)
     import teamx_metrics_g as g
-    g.saveFile(subfolderName)
+    g.saveFile(subfolder_name)
     import teamx_metrics_m as m
-    m.saveFile(subfolderName)
+    m.saveFile(subfolder_name)
     import teamx_metrics_ad as ad
-    ad.saveFile(subfolderName)
+    ad.saveFile(subfolder_name)
