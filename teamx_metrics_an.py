@@ -5,12 +5,10 @@ import pandas as pd
 from matplotlib import pyplot as plt
 from matplotlib import dates as mdates
 from pandas.plotting import register_matplotlib_converters
-
-import constants
-
 register_matplotlib_converters()
+from matplotlib.ticker import MultipleLocator
 
-conn = p.connect(host=os.getenv('POSTGRES_HOST', constants.database_url), dbname=os.getenv('POSTGRES_DB', constants.database_name), user=os.getenv('POSTGRES_USER', constants.database_user), password=os.getenv('POSTGRES_PASSWORD', constants.database_password))
+conn = p.connect(host=os.getenv('POSTGRES_HOST', 'http://127.0.0.1:5432'), dbname=os.getenv('POSTGRES_DB', 'teamx'), user=os.getenv('POSTGRES_USER', 'postgres'), password=os.getenv('POSTGRES_PASSWORD', ''))
 cur = conn.cursor()
 
 # 2 Graphs
@@ -19,9 +17,9 @@ fig, ax = plt.subplots(nrows=2, ncols=1, figsize = (12,6))
 # Graph 1 - Total Create Connection "hasConnectionImage" Breakdown
 
 cur.execute("""
-SELECT COUNT(*) FILTER (WHERE hasConnectionImage=TRUE) AS connectionImages,
-    COUNT(*) FILTER (WHERE hasConnectionImage=FALSE) AS noConnectionImages
-FROM createConnectionTypeContext """)
+SELECT COUNT(*) FILTER (WHERE "hasConnectionImage"=TRUE) AS connectionImages,
+    COUNT(*) FILTER (WHERE "hasConnectionImage"=FALSE) AS noConnectionImages
+FROM "CreateConnectionTypeContext" """)
 rows = cur.fetchall()
 
 totalDue = rows[0][0]
@@ -37,19 +35,19 @@ ax[0].axis('equal')
 # Graph 2 - Last 30 Days Create Connection "hasConnectionImage" Breakdown
 cur.execute("""
 WITH dau AS (
-  SELECT createdAt::DATE AS "date"
-  FROM Event JOIN CreateConnectionTypeContext ON Event.id=CreateConnectionTypeContext.eventID
+  SELECT "createdAt"::DATE AS "date"
+  FROM "Event" JOIN "CreateConnectionTypeContext" ON "Event".id="CreateConnectionTypeContext"."eventID"
   GROUP BY 1
   ORDER BY 1
 )
 SELECT "date",
-            (SELECT count(*) FILTER (WHERE hasConnectionImage=TRUE)
-            FROM Event JOIN CreateConnectionTypeContext ON Event.id=CreateConnectionTypeContext.eventID
-            WHERE Event.createdAt::DATE BETWEEN dau.date - 29 AND dau.date) 
+            (SELECT count(*) FILTER (WHERE "hasConnectionImage"=TRUE)
+            FROM "Event" JOIN "CreateConnectionTypeContext" ON "Event".id="CreateConnectionTypeContext"."eventID"
+            WHERE "Event"."createdAt"::DATE BETWEEN dau.date - 29 AND dau.date) 
             AS connectionImages,
-            (SELECT count(*) FILTER (WHERE hasConnectionImage=FALSE)
-            FROM Event JOIN CreateConnectionTypeContext ON Event.id=CreateConnectionTypeContext.eventID
-            WHERE Event.createdAt::DATE BETWEEN dau.date - 29 AND dau.date) 
+            (SELECT count(*) FILTER (WHERE "hasConnectionImage"=FALSE)
+            FROM "Event" JOIN "CreateConnectionTypeContext" ON "Event".id="CreateConnectionTypeContext"."eventID"
+            WHERE "Event"."createdAt"::DATE BETWEEN dau.date - 29 AND dau.date) 
             AS noConnectionImages
 FROM dau;
 """)
@@ -80,7 +78,7 @@ ax[1].grid(color='gray', linestyle='--')
 
 #plt.show()
 def saveFile(folderName):
-    fileName = '/Create Connection Breakdown by True:False.pdf'
+    fileName = '/Create Connection Breakdown by Has Connection Image True:False.pdf'
     plt.savefig(folderName + fileName)
     plt.close(fig)
 
