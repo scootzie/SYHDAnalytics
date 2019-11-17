@@ -1,18 +1,24 @@
 import os
-import psycopg2 as p
+
 import numpy as np
 import pandas as pd
-from matplotlib import pyplot as plt
+import psycopg2 as p
 from matplotlib import dates as mdates
+from matplotlib import pyplot as plt
 from pandas.plotting import register_matplotlib_converters
-register_matplotlib_converters()
-from matplotlib.ticker import MultipleLocator
 
-conn = p.connect(host=os.getenv('POSTGRES_HOST', 'http://127.0.0.1:5432'), dbname=os.getenv('POSTGRES_DB', 'teamx'), user=os.getenv('POSTGRES_USER', 'postgres'), password=os.getenv('POSTGRES_PASSWORD', ''))
+import constants
+
+register_matplotlib_converters()
+
+conn = p.connect(host=os.getenv('POSTGRES_HOST', constants.database_url),
+                 dbname=os.getenv('POSTGRES_DB', constants.database_name),
+                 user=os.getenv('POSTGRES_USER', constants.database_user),
+                 password=os.getenv('POSTGRES_PASSWORD', constants.database_password))
 cur = conn.cursor()
 
 # 2 Graphs
-fig, ax = plt.subplots(nrows=2, ncols=1, figsize = (12,6))
+fig, ax = plt.subplots(nrows=2, ncols=1, figsize=(12, 6))
 
 # Graph 1 - Total Create Connection "hasConnectionImage" Breakdown
 
@@ -25,12 +31,11 @@ rows = cur.fetchall()
 totalDue = rows[0][0]
 totalNoDue = rows[0][1]
 
-labels='Has Connection Image', 'No Connection Image'
+labels = 'Has Connection Image', 'No Connection Image'
 
 ax[0].pie([totalDue, totalNoDue], labels=labels, autopct='%1.1f%%')
 ax[0].set_title("% Breakdown of Create Connection: Has Connection Image vs. No Connection Image TOTAL")
 ax[0].axis('equal')
-
 
 # Graph 2 - Last 30 Days Create Connection "hasConnectionImage" Breakdown
 cur.execute("""
@@ -61,10 +66,11 @@ for r in rows:
     npe.append(r[1])
     npd.append(r[2])
 
-x = range(1, len(rows)+1)
+x = range(1, len(rows) + 1)
 data = pd.DataFrame({'Percent with image': npe, 'Percent without image': npd, }, index=x)
 data_perc = data.divide(data.sum(axis=1), axis=0)
-ax[1].stackplot(dates, data_perc['Percent with image'], data_perc['Percent without image'], labels=['Has Image', 'No Image'])
+ax[1].stackplot(dates, data_perc['Percent with image'], data_perc['Percent without image'],
+                labels=['Has Image', 'No Image'])
 ax[1].set_title("% Breakdown of Create Connection: Has Connection Image vs. No Connection Image by MAUs")
 ax[1].legend(loc='lower left')
 ax[1].set(xlabel='Date (by Day)', ylabel='%')
@@ -76,10 +82,11 @@ ax[1].set_yticks(np.arange(0.0, 1.1, 0.1))
 ax[1].grid(color='gray', linestyle='--')
 
 
-#plt.show()
+# plt.show()
 def saveFile(folderName):
     fileName = '/Create Connection Breakdown by Has Connection Image True:False.pdf'
     plt.savefig(folderName + fileName)
     plt.close(fig)
+
 
 conn.close()

@@ -11,7 +11,10 @@ import constants
 
 register_matplotlib_converters()
 
-conn = p.connect(host=os.getenv('POSTGRES_HOST', constants.database_url), dbname=os.getenv('POSTGRES_DB', constants.database_name), user=os.getenv('POSTGRES_USER', constants.database_user), password=os.getenv('POSTGRES_PASSWORD', constants.database_password))
+conn = p.connect(host=os.getenv('POSTGRES_HOST', constants.database_url),
+                 dbname=os.getenv('POSTGRES_DB', constants.database_name),
+                 user=os.getenv('POSTGRES_USER', constants.database_user),
+                 password=os.getenv('POSTGRES_PASSWORD', constants.database_password))
 cur = conn.cursor()
 
 # Set up Notifications Enabled Data
@@ -46,12 +49,11 @@ for r in rows:
     dau.append(r[1])
     wau.append(r[2])
     mau.append(r[3])
-    wauStick.append(r[2]-r[1])
-    mauStick.append(r[3]-r[2])
-x = range(1, len(dates)+1)
+    wauStick.append(r[2] - r[1])
+    mauStick.append(r[3] - r[2])
+x = range(1, len(dates) + 1)
 
-
-#Set Up Notifications Disabled Data
+# Set Up Notifications Disabled Data
 cur.execute("""
 WITH notificationsDisabledDau AS (
   SELECT "Event"."createdAt"::DATE AS "date", count(DISTINCT "memberID") AS dau
@@ -83,12 +85,12 @@ for r in rows1:
     dau1.append(r[1])
     wau1.append(r[2])
     mau1.append(r[3])
-    wauStick1.append(r[2]-r[1])
-    mauStick1.append(r[3]-r[2])
-x1 = range(1, len(dates1)+1)
+    wauStick1.append(r[2] - r[1])
+    mauStick1.append(r[3] - r[2])
+x1 = range(1, len(dates1) + 1)
 
 # 4 graphs
-fig, ax = plt.subplots(nrows=2, ncols=2, figsize = (16,8))
+fig, ax = plt.subplots(nrows=2, ncols=2, figsize=(16, 8))
 
 # Graph 1 - ENABLED NOTIFICATIONS: DAU, WAU, and MAU Over Time
 ax[0, 0].plot(dates, dau, label='dau')
@@ -145,10 +147,13 @@ ax[1, 1].set_yticks(np.arange(0.0, 1.1, 0.1))
 ax[1, 1].grid(color='gray', linestyle='--')
 
 fig.subplots_adjust(hspace=.6)
-#plt.show()
+
+
+# plt.show()
 def saveFile(folderName):
     fileName = '/DAU, WAU, MAU, Stickiness for Notifications Enabled:Disabled.pdf'
     plt.savefig(folderName + fileName)
     plt.close(fig)
+
 
 conn.close()

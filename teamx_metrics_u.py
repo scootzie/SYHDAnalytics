@@ -11,7 +11,10 @@ import constants
 
 register_matplotlib_converters()
 
-conn = p.connect(host=os.getenv('POSTGRES_HOST', constants.database_url), dbname=os.getenv('POSTGRES_DB', constants.database_name), user=os.getenv('POSTGRES_USER', constants.database_user), password=os.getenv('POSTGRES_PASSWORD', constants.database_password))
+conn = p.connect(host=os.getenv('POSTGRES_HOST', constants.database_url),
+                 dbname=os.getenv('POSTGRES_DB', constants.database_name),
+                 user=os.getenv('POSTGRES_USER', constants.database_user),
+                 password=os.getenv('POSTGRES_PASSWORD', constants.database_password))
 cur = conn.cursor()
 
 cur.execute("""
@@ -33,7 +36,6 @@ SELECT "date", dau,
 FROM dau;
 """)
 
-
 rows = cur.fetchall()
 dates = []
 dau = []
@@ -46,12 +48,12 @@ for r in rows:
     dau.append(r[1])
     wau.append(r[2])
     mau.append(r[3])
-    wauStick.append(r[2]-r[1])
-    mauStick.append(r[3]-r[2])
-x = range(1, len(dates)+1)
+    wauStick.append(r[2] - r[1])
+    mauStick.append(r[3] - r[2])
+x = range(1, len(dates) + 1)
 
 # Graph 1 - "Mark as Contacted" DAU, WAU, and MAU Over Time
-fig, ax = plt.subplots(nrows=2, ncols=1, figsize = (10, 6))
+fig, ax = plt.subplots(nrows=2, ncols=1, figsize=(10, 6))
 ax[0].plot(dates, dau, label='dau')
 ax[0].plot(dates, wau, label='wau')
 ax[0].plot(dates, mau, label='mau')
@@ -79,10 +81,13 @@ ax[1].set_yticks(np.arange(0.0, 1.1, 0.1))
 ax[1].grid(color='gray', linestyle='--')
 
 plt.tight_layout()
-#plt.show()
+
+
+# plt.show()
 def saveFile(folderName):
     fileName = '/Mark as Contacted - DAU, WAU, MAU, and Stickiness.pdf'
     plt.savefig(folderName + fileName)
     plt.close(fig)
+
 
 conn.close()

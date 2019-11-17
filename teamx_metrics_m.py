@@ -11,7 +11,10 @@ import constants
 
 register_matplotlib_converters()
 
-conn = p.connect(host=os.getenv('POSTGRES_HOST', constants.database_url), dbname=os.getenv('POSTGRES_DB', constants.database_name), user=os.getenv('POSTGRES_USER', constants.database_user), password=os.getenv('POSTGRES_PASSWORD', constants.database_password))
+conn = p.connect(host=os.getenv('POSTGRES_HOST', constants.database_url),
+                 dbname=os.getenv('POSTGRES_DB', constants.database_name),
+                 user=os.getenv('POSTGRES_USER', constants.database_user),
+                 password=os.getenv('POSTGRES_PASSWORD', constants.database_password))
 cur = conn.cursor()
 
 cur.execute("""
@@ -48,18 +51,18 @@ failureDay = []
 successWeek = []
 failureWeek = []
 successMonth = []
-failureMonth =[]
+failureMonth = []
 for r in rows:
     dates.append(r[0])
     successDay.append(r[2])
-    failureDay.append(r[1]-r[2])
+    failureDay.append(r[1] - r[2])
     successWeek.append(r[4])
-    failureWeek.append(r[3]-r[4])
+    failureWeek.append(r[3] - r[4])
     successMonth.append(r[6])
-    failureMonth.append(r[5]-r[6])
-x = range(1, len(dates)+1)
+    failureMonth.append(r[5] - r[6])
+x = range(1, len(dates) + 1)
 
-fig, ax = plt.subplots(nrows=3, ncols=1, figsize = (12,6))
+fig, ax = plt.subplots(nrows=3, ncols=1, figsize=(12, 6))
 
 # Graph 1 - Start Creation --> Create Connection Conversion (LAST 30 DAYS)
 data = pd.DataFrame({'successMonth': successMonth, 'failureMonth': failureMonth, }, index=x)
@@ -74,7 +77,6 @@ ax[0].xaxis.set_major_locator(mdates.MonthLocator())
 ax[0].xaxis.set_major_formatter(mdates.DateFormatter('%b %Y'))
 ax[0].set_yticks(np.arange(0.0, 1.1, 0.1))
 ax[0].grid(color='gray', linestyle='--')
-
 
 # Graph 2 - Start Creation --> Create Connection Conversion (LAST 7 DAYS)
 data1 = pd.DataFrame({'successWeek': successWeek, 'failureWeek': failureWeek, }, index=x)
@@ -105,10 +107,13 @@ ax[2].set_yticks(np.arange(0.0, 1.1, 0.1))
 ax[2].grid(color='gray', linestyle='--')
 
 plt.tight_layout()
-#plt.show()
+
+
+# plt.show()
 def saveFile(folderName):
     fileName = '/Start Creation to Create Connection Funnel.pdf'
     plt.savefig(folderName + fileName)
     plt.close(fig)
+
 
 conn.close()

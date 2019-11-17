@@ -11,7 +11,10 @@ import constants
 
 register_matplotlib_converters()
 
-conn = p.connect(host=os.getenv('POSTGRES_HOST', constants.database_url), dbname=os.getenv('POSTGRES_DB', constants.database_name), user=os.getenv('POSTGRES_USER', constants.database_user), password=os.getenv('POSTGRES_PASSWORD', constants.database_password))
+conn = p.connect(host=os.getenv('POSTGRES_HOST', constants.database_url),
+                 dbname=os.getenv('POSTGRES_DB', constants.database_name),
+                 user=os.getenv('POSTGRES_USER', constants.database_user),
+                 password=os.getenv('POSTGRES_PASSWORD', constants.database_password))
 cur = conn.cursor()
 
 # Graph 1 - % Breakdown (Cumulative) of contact connection source/method/action - Pie Chart
@@ -30,15 +33,13 @@ rows = cur.fetchall()
 top = rows[0][0]
 total = rows[0][1]
 percent = rows[0][0] / rows[0][1]
-other = 1-percent
-labels='HAS CHANGE REMINDER FREQ', 'HAS NOT CHANGED REMINDER FREQ'
+other = 1 - percent
+labels = 'HAS CHANGE REMINDER FREQ', 'HAS NOT CHANGED REMINDER FREQ'
 
-fig, ax = plt.subplots(nrows=2, ncols=2, figsize = (12,6))
+fig, ax = plt.subplots(nrows=2, ncols=2, figsize=(12, 6))
 ax[0][0].pie([percent, other], labels=labels, autopct='%1.1f%%')
 ax[0][0].set_title("% Breakdown (CUMULATIVE) of Members Who Change Reminder Freq")
 ax[0][0].axis('equal')
-
-
 
 cur.execute("""
 WITH openAndChangeFreqMembers1Day AS (
@@ -74,22 +75,22 @@ failureDay = []
 successWeek = []
 failureWeek = []
 successMonth = []
-failureMonth =[]
+failureMonth = []
 for r in rows:
     dates.append(r[0])
     successDay.append(r[2])
-    failureDay.append(r[1]-r[2])
+    failureDay.append(r[1] - r[2])
     successWeek.append(r[4])
-    failureWeek.append(r[3]-r[4])
+    failureWeek.append(r[3] - r[4])
     successMonth.append(r[6])
-    failureMonth.append(r[5]-r[6])
-x = range(1, len(dates)+1)
-
+    failureMonth.append(r[5] - r[6])
+x = range(1, len(dates) + 1)
 
 # Graph 2 - Open App --> Pull Up Tab Bar Funnel (LAST 30 DAYS)
 data = pd.DataFrame({'successMonth': successMonth, 'failureMonth': failureMonth, }, index=x)
 data_perc = data.divide(data.sum(axis=1), axis=0)
-ax[0][1].stackplot(dates, data_perc['successMonth'], data_perc['failureMonth'], labels=['Change RemFreq', 'No Change RemFreq'])
+ax[0][1].stackplot(dates, data_perc['successMonth'], data_perc['failureMonth'],
+                   labels=['Change RemFreq', 'No Change RemFreq'])
 ax[0][1].set_title("[Unique] Open App --> Change Reminder Freq (LAST 30 DAYS)")
 ax[0][1].legend(loc='lower left')
 ax[0][1].set(xlabel='Date', ylabel='% Conversion')
@@ -100,11 +101,11 @@ ax[0][1].xaxis.set_major_formatter(mdates.DateFormatter('%b %Y'))
 ax[0][1].set_yticks(np.arange(0.0, 1.1, 0.2))
 ax[0][1].grid(color='gray', linestyle='--')
 
-
 # Graph 3 - Open App --> Pull Up Tab Bar Funnel (LAST 7 DAYS)
 data1 = pd.DataFrame({'successWeek': successWeek, 'failureWeek': failureWeek, }, index=x)
 data_perc1 = data1.divide(data1.sum(axis=1), axis=0)
-ax[1][0].stackplot(dates, data_perc1['successWeek'], data_perc1['failureWeek'], labels=['Change RemFreq', 'No Change RemFreq'])
+ax[1][0].stackplot(dates, data_perc1['successWeek'], data_perc1['failureWeek'],
+                   labels=['Change RemFreq', 'No Change RemFreq'])
 ax[1][0].set_title("[Unique] Open App --> Change Reminder Freq (LAST 7 DAYS)")
 ax[1][0].legend(loc='lower left')
 ax[1][0].set(xlabel='Date', ylabel='% Conversion')
@@ -118,7 +119,8 @@ ax[1][0].grid(color='gray', linestyle='--')
 # Graph 4 - Open App --> Pull Up Tab Bar Funnel (LAST 1 DAY)
 data2 = pd.DataFrame({'successDay': successDay, 'failureDay': failureDay, }, index=x)
 data_perc2 = data2.divide(data2.sum(axis=1), axis=0)
-ax[1][1].stackplot(dates, data_perc2['successDay'], data_perc2['failureDay'], labels=['Change RemFreq', 'No Change RemFreq'])
+ax[1][1].stackplot(dates, data_perc2['successDay'], data_perc2['failureDay'],
+                   labels=['Change RemFreq', 'No Change RemFreq'])
 ax[1][1].set_title("[Unique] Open App --> Change Reminder Freq (LAST 1 DAY)")
 ax[1][1].legend(loc='lower left')
 ax[1][1].set(xlabel='Date', ylabel='% Conversion')
@@ -130,10 +132,11 @@ ax[1][1].set_yticks(np.arange(0.0, 1.1, 0.2))
 ax[1][1].grid(color='gray', linestyle='--')
 
 
-#plt.show()
+# plt.show()
 def saveFile(folderName):
     fileName = '/Members Who Change Reminder Frequencies.pdf'
     plt.savefig(folderName + fileName)
     plt.close()
+
 
 conn.close()

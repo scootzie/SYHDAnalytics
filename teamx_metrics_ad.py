@@ -9,11 +9,14 @@ import constants
 
 register_matplotlib_converters()
 
-conn = p.connect(host=os.getenv('POSTGRES_HOST', constants.database_url), dbname=os.getenv('POSTGRES_DB', constants.database_name), user=os.getenv('POSTGRES_USER', constants.database_user), password=os.getenv('POSTGRES_PASSWORD', constants.database_password))
+conn = p.connect(host=os.getenv('POSTGRES_HOST', constants.database_url),
+                 dbname=os.getenv('POSTGRES_DB', constants.database_name),
+                 user=os.getenv('POSTGRES_USER', constants.database_user),
+                 password=os.getenv('POSTGRES_PASSWORD', constants.database_password))
 cur = conn.cursor()
 
 # 1 Graph
-fig, ax = plt.subplots(nrows=1, ncols=1, figsize = (12,7))
+fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(12, 7))
 
 # Has no due connections
 cur.execute("""
@@ -64,7 +67,6 @@ for r in rows:
     num7Day.append(r[2])
     num30Day.append(r[3])
 
-
 # Graph 1 - Mark as Contacted --> Average # of Mark as Contacted per session
 ax.plot(dates, num30Day, label="Last 30 Days")
 ax.plot(dates, num7Day, label="Last 7 Days")
@@ -79,10 +81,11 @@ ax.xaxis.set_major_formatter(mdates.DateFormatter('%b %Y'))
 ax.grid(color='gray', linestyle='--')
 
 
-#plt.show()
+# plt.show()
 def saveFile(folderName):
     fileName = '/Use Search Bar to Create Connection Funnel.pdf'
     plt.savefig(folderName + fileName)
     plt.close(fig)
+
 
 conn.close()

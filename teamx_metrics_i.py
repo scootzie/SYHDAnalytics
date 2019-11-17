@@ -9,7 +9,10 @@ import constants
 
 register_matplotlib_converters()
 
-conn = p.connect(host=os.getenv('POSTGRES_HOST', constants.database_url), dbname=os.getenv('POSTGRES_DB', constants.database_name), user=os.getenv('POSTGRES_USER', constants.database_user), password=os.getenv('POSTGRES_PASSWORD', constants.database_password))
+conn = p.connect(host=os.getenv('POSTGRES_HOST', constants.database_url),
+                 dbname=os.getenv('POSTGRES_DB', constants.database_name),
+                 user=os.getenv('POSTGRES_USER', constants.database_user),
+                 password=os.getenv('POSTGRES_PASSWORD', constants.database_password))
 cur = conn.cursor()
 
 # Graph 1 - Histogram of All Member's # of Connections (CUMULATIVE)
@@ -35,11 +38,11 @@ nums = []
 for r in rows:
     nums.append(r[0])
 try:
-    bins = np.max(nums)-1
+    bins = np.max(nums) - 1
 except ValueError:
     bins = 1
-    
-plt.figure(figsize=(10,6))
+
+plt.figure(figsize=(10, 6))
 plt.subplot(211)
 
 plt.hist(nums, bins)
@@ -47,7 +50,6 @@ plt.title("Breakdown of Members by # of Connections (CUMULATIVE/ALL MEMBERS)")
 plt.xlabel("# of Connections per Member")
 plt.ylabel("# of Members")
 plt.grid(alpha=0.5)
-
 
 # Graph 2 - Histogram of All Member's # of Connections (MAUs)
 cur.execute("""
@@ -77,7 +79,7 @@ nums = []
 for r in rows:
     nums.append(r[0])
 try:
-    bins = np.max(nums)-1
+    bins = np.max(nums) - 1
 except ValueError:
     bins = 1
 plt.subplot(212)
@@ -88,12 +90,14 @@ plt.xlabel("# of Connections per Member")
 plt.ylabel("# of Members")
 plt.grid(alpha=0.5)
 
-
 plt.subplots_adjust(hspace=.6)
-#plt.show()
+
+
+# plt.show()
 def saveFile(folderName):
     fileName = '/Number of Connections Breakdown.pdf'
     plt.savefig(folderName + fileName)
     plt.close()
+
 
 conn.close()

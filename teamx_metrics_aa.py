@@ -4,15 +4,19 @@ import psycopg2 as p
 from matplotlib import dates as mdates
 from matplotlib import pyplot as plt
 from pandas.plotting import register_matplotlib_converters
+
 import constants
 
 register_matplotlib_converters()
 
-conn = p.connect(host=os.getenv('POSTGRES_HOST', constants.database_url), dbname=os.getenv('POSTGRES_DB', constants.database_name), user=os.getenv('POSTGRES_USER', constants.database_user), password=os.getenv('POSTGRES_PASSWORD', constants.database_password))
+conn = p.connect(host=os.getenv('POSTGRES_HOST', constants.database_url),
+                 dbname=os.getenv('POSTGRES_DB', constants.database_name),
+                 user=os.getenv('POSTGRES_USER', constants.database_user),
+                 password=os.getenv('POSTGRES_PASSWORD', constants.database_password))
 cur = conn.cursor()
 
 # 1 Graph
-fig, ax = plt.subplots(nrows=1, ncols=1, figsize = (12, 6))
+fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(12, 6))
 
 # Has no due connections
 cur.execute("""
@@ -63,7 +67,6 @@ for r in rows:
     numMarks7Day.append(r[2])
     numMarks30Day.append(r[3])
 
-
 # Graph 1 - Mark as Contacted --> Average # of Mark as Contacted per session
 ax.plot(dates, numMarks30Day, label="Last 30 Days")
 ax.plot(dates, numMarks7Day, label="Last 7 Days")
@@ -78,7 +81,7 @@ ax.xaxis.set_major_formatter(mdates.DateFormatter('%b %Y'))
 ax.grid(color='gray', linestyle='--')
 
 
-#plt.show()
+# plt.show()
 def saveFile(folderName):
     fileName = '/Members Who Create Connections.pdf'
     plt.savefig(folderName + fileName)

@@ -9,11 +9,14 @@ import constants
 
 register_matplotlib_converters()
 
-conn = p.connect(host=os.getenv('POSTGRES_HOST', constants.database_url), dbname=os.getenv('POSTGRES_DB', constants.database_name), user=os.getenv('POSTGRES_USER', constants.database_user), password=os.getenv('POSTGRES_PASSWORD', constants.database_password))
+conn = p.connect(host=os.getenv('POSTGRES_HOST', constants.database_url),
+                 dbname=os.getenv('POSTGRES_DB', constants.database_name),
+                 user=os.getenv('POSTGRES_USER', constants.database_user),
+                 password=os.getenv('POSTGRES_PASSWORD', constants.database_password))
 cur = conn.cursor()
 
 # 1 Graph
-fig, ax = plt.subplots(nrows=1, ncols=1, figsize = (12,6))
+fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(12, 6))
 
 # Has no due connections
 cur.execute("""
@@ -64,12 +67,12 @@ for r in rows:
     numMarks7Day.append(r[2])
     numMarks30Day.append(r[3])
 
-
 # Graph 1 - % of Sessions where Members Achieve Ideal State: Open App (numDueConnections>0) --> Mark as Contacted (numDueConnections=0) per Session
 ax.plot(dates, numMarks30Day, label="Last 30 Days")
 ax.plot(dates, numMarks7Day, label="Last 7 Days")
 ax.plot(dates, numMarks1Day, label="Last 1 day")
-ax.set_title("% of Sessions where Members Achieve Ideal State \nOpen App (numDueConnections>0) --> Mark as Contacted (numDueConnections=0) per Session")
+ax.set_title(
+    "% of Sessions where Members Achieve Ideal State \nOpen App (numDueConnections>0) --> Mark as Contacted (numDueConnections=0) per Session")
 ax.legend(loc='lower left')
 ax.set(xlabel='Date', ylabel="Avg #")
 # Make ticks on occurrences of each month:
@@ -79,10 +82,11 @@ ax.xaxis.set_major_formatter(mdates.DateFormatter('%b %Y'))
 ax.grid(color='gray', linestyle='--')
 
 
-#plt.show()
+# plt.show()
 def saveFile(folderName):
     fileName = '/Ideal State Session Conversion.pdf'
     plt.savefig(folderName + fileName)
     plt.close(fig)
+
 
 conn.close()

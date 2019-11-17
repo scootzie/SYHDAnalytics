@@ -8,9 +8,11 @@ import constants
 
 register_matplotlib_converters()
 
-conn = p.connect(host=os.getenv('POSTGRES_HOST', constants.database_url), dbname=os.getenv('POSTGRES_DB', constants.database_name), user=os.getenv('POSTGRES_USER', constants.database_user), password=os.getenv('POSTGRES_PASSWORD', constants.database_password))
+conn = p.connect(host=os.getenv('POSTGRES_HOST', constants.database_url),
+                 dbname=os.getenv('POSTGRES_DB', constants.database_name),
+                 user=os.getenv('POSTGRES_USER', constants.database_user),
+                 password=os.getenv('POSTGRES_PASSWORD', constants.database_password))
 cur = conn.cursor()
-
 
 # Graph 1 - % Breakdown (Cumulative) of contact connection source/method/action - Pie Chart
 cur.execute("""
@@ -28,12 +30,10 @@ for r in rows:
     labels.append(r[0] + ", " + r[1] + ", " + r[2])
     count.append(r[3])
 
-fig, ax = plt.subplots(nrows=2, ncols=1, figsize = (12, 6))
+fig, ax = plt.subplots(nrows=2, ncols=1, figsize=(12, 6))
 ax[0].pie(count, labels=labels, autopct='%1.1f%%')
 ax[0].set_title("% Breakdown (CUMULATIVE) of Contact Connection Source")
 ax[0].axis('equal')
-
-
 
 # Graph 2 - % Breakdown (Last 30 Days) of contact connection source/method/action - Pie Chart
 cur.execute("""
@@ -57,10 +57,11 @@ ax[1].set_title("% Breakdown (LAST 30 DAYS) of Contact Connection Source")
 ax[1].axis('equal')
 
 
-#plt.show()
+# plt.show()
 def saveFile(folderName):
     fileName = '/Contact Connection Breakdown.pdf'
     plt.savefig(folderName + fileName)
     plt.close(fig)
+
 
 conn.close()

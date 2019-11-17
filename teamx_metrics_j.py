@@ -11,7 +11,10 @@ import constants
 
 register_matplotlib_converters()
 
-conn = p.connect(host=os.getenv('POSTGRES_HOST', constants.database_url), dbname=os.getenv('POSTGRES_DB', constants.database_name), user=os.getenv('POSTGRES_USER', constants.database_user), password=os.getenv('POSTGRES_PASSWORD', constants.database_password))
+conn = p.connect(host=os.getenv('POSTGRES_HOST', constants.database_url),
+                 dbname=os.getenv('POSTGRES_DB', constants.database_name),
+                 user=os.getenv('POSTGRES_USER', constants.database_user),
+                 password=os.getenv('POSTGRES_PASSWORD', constants.database_password))
 cur = conn.cursor()
 
 cur.execute("""
@@ -39,10 +42,10 @@ for r in rows:
     npe.append(r[1])
     npd.append(r[2])
 
-labels='ENABLED', 'NOT ENABLED'
+labels = 'ENABLED', 'NOT ENABLED'
 
 # 3 Graphs
-fig, ax = plt.subplots(nrows=3, ncols=1, figsize = (10,6))
+fig, ax = plt.subplots(nrows=3, ncols=1, figsize=(10, 6))
 
 # Graph 1 - % Notifications Enabled (Cumulative) - Pie Chart
 ax[0].pie([totalEnabled, totalDisabled], labels=labels, autopct='%1.1f%%')
@@ -50,10 +53,11 @@ ax[0].set_title("% Breakdown of Members Who Enable Notifications")
 ax[0].axis('equal')
 
 # Graph 2 - % Notifications Enabled by Month of Created Date - Line Graph
-x = range(1, len(rows)+1)
+x = range(1, len(rows) + 1)
 data = pd.DataFrame({'Percent Enabled': npe, 'Percent NOT Enabled': npd, }, index=x)
 data_perc = data.divide(data.sum(axis=1), axis=0)
-ax[1].stackplot(dates, data_perc['Percent Enabled'], data_perc['Percent NOT Enabled'], labels=['Percent Enabled', 'Percent NOT Enabled'])
+ax[1].stackplot(dates, data_perc['Percent Enabled'], data_perc['Percent NOT Enabled'],
+                labels=['Percent Enabled', 'Percent NOT Enabled'])
 ax[1].set_title("Notification Permissions by Month of Member Creation")
 ax[1].legend(loc='lower left')
 ax[1].set(xlabel='Creation Date (Month)', ylabel='% of Members')
@@ -63,7 +67,6 @@ ax[1].xaxis.set_major_locator(mdates.MonthLocator())
 ax[1].xaxis.set_major_formatter(mdates.DateFormatter('%b %Y'))
 ax[1].set_yticks(np.arange(0.0, 1.1, 0.1))
 ax[1].grid(color='gray', linestyle='--')
-
 
 cur.execute("""
 WITH dau AS (
@@ -94,12 +97,12 @@ for r in rows:
     npe.append(r[1])
     npd.append(r[2])
 
-
 # Graph 3 - % Notifications Enabled by MAUs - Stackplot
-x = range(1, len(rows)+1)
+x = range(1, len(rows) + 1)
 data = pd.DataFrame({'Percent Enabled': npe, 'Percent NOT Enabled': npd, }, index=x)
 data_perc = data.divide(data.sum(axis=1), axis=0)
-ax[2].stackplot(dates, data_perc['Percent Enabled'], data_perc['Percent NOT Enabled'], labels=['Percent Enabled', 'Percent NOT Enabled'])
+ax[2].stackplot(dates, data_perc['Percent Enabled'], data_perc['Percent NOT Enabled'],
+                labels=['Percent Enabled', 'Percent NOT Enabled'])
 ax[2].set_title("Notification Permissions Breakdown by MAUs")
 ax[2].legend(loc='lower left')
 ax[2].set(xlabel='Date (by Day)', ylabel='% of MAUs')
@@ -110,12 +113,14 @@ ax[2].xaxis.set_major_formatter(mdates.DateFormatter('%b %Y'))
 ax[2].set_yticks(np.arange(0.0, 1.1, 0.1))
 ax[2].grid(color='gray', linestyle='--')
 
-
 fig.subplots_adjust(hspace=.6)
-#plt.show()
+
+
+# plt.show()
 def saveFile(folderName):
     fileName = '/Notification Permissions Breakdown.pdf'
     plt.savefig(folderName + fileName)
     plt.close(fig)
+
 
 conn.close()
