@@ -1,4 +1,4 @@
-FROM python:2.7
+FROM python:3
 
 WORKDIR /usr/src/app
 
@@ -10,6 +10,6 @@ RUN echo "backend : Agg" > /root/.config/matplotlib/matplotlibrc
 
 COPY . .
 
-ENTRYPOINT [ "python" ]
+ENTRYPOINT [ "gunicorn" ]
 
-CMD [ "app.py" ]
+CMD [ "--bind", "0.0.0.0:5000", "app:app" ]
