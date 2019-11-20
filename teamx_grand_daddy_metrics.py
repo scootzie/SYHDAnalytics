@@ -5,7 +5,7 @@ from datetime import datetime
 def generate_reports():
     # datetime object containing current date and time
     now = datetime.now()
-    dt_string = now.strftime("%m:%d:%Y %H;%M;%S")
+    dt_string = now.isoformat()
 
     base_folder = os.getenv('REPORT_FOLDER', './Metrics Reports')
 
