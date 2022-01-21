@@ -1,13 +1,15 @@
 # SYHDAnalytics
-Analytics Repo for Cultivator. 
+Welcome to the Analytics Repo for Cultivator. Below is an outline of how we implemented tracking in our app.
 
 [Check out the Cultivator App!](https://cultivatorapp.com/) Base knowledge of how the app works will help to understand the analytics we implemented for it.
 
+
+
 **1) DETERMINE PROBLEM TO SOLVE FOR:**
 
-First, we started with asking ourselves: "What information do we want to learn about from our app?". We brainstormed questions and prioritized them here: https://docs.google.com/spreadsheets/d/1nWwQaEZrdU11-wkWwzlee_UGbQmj3DU_rylWFxZOH-A/edit?usp=sharing.
+First, we started with asking ourselves: "What information do we want to learn about from our app?". We brainstormed questions and prioritized them in the [Metrics/Analytics Google Sheet](https://docs.google.com/spreadsheets/d/1nWwQaEZrdU11-wkWwzlee_UGbQmj3DU_rylWFxZOH-A/edit?usp=sharing).
 
-Then, in the 'Data Visualization Breakdown' sheet in the Google Sheets file linked above, we determined what type of visualization(s) we wanted for each metric.
+Then, in the 'Data Visualization Breakdown' sheet in that same [Metrics/Analytics Google Sheet](https://docs.google.com/spreadsheets/d/1nWwQaEZrdU11-wkWwzlee_UGbQmj3DU_rylWFxZOH-A/edit?usp=sharing), we determined what type of visualizations we wanted for each metric.
 
 ----------------------------------------------------------------
 
@@ -15,7 +17,8 @@ Then, in the 'Data Visualization Breakdown' sheet in the Google Sheets file link
 
 After, we determined what specific data we want to capture in our analytics in order to visualize the metrics that we want to capture. We designed the database with this information. **The [ER diagram](https://github.com/scootzie/SYHDAnalytics/blob/master/ER%20Diagram.png) can be found in this repo**. Mock data for these tables can be found in the 'Database Design' sheet in the Google Sheets file linked above.
 
-We then mapped out the user interactions to the corresponding analytics data values that we wanted for each action. This assured us that we covered all the use cases we wanted to cover in the app. This data mapping can be found in this Google Doc: https://docs.google.com/document/d/17PhnJm8EooYixnGG27pQEUkdex-_paWT1bLFayNbx0c/edit?usp=sharing.
+We then mapped out the user interactions to the corresponding analytics data values that we wanted for each action. This assured us that we covered all the use cases we wanted to cover in the app. This mapping can be found in the [User Interaction Mapping for Analytics Google Doc
+](https://docs.google.com/document/d/17PhnJm8EooYixnGG27pQEUkdex-_paWT1bLFayNbx0c/edit?usp=sharing).
 
 ----------------------------------------------------------------
 
@@ -23,7 +26,7 @@ We then mapped out the user interactions to the corresponding analytics data val
 
 With the database design in place, we wrote out our .py files to query the database and visualize the data.
 
-To see corresponding visualizations of each graph, see the LucidChart here: https://lucid.app/documents/view/e0134f2b-ba76-4be6-889d-902c5478011a
+To see corresponding visualizations of each graph, see the [LucidChart Diagram](https://lucid.app/documents/view/e0134f2b-ba76-4be6-889d-902c5478011a).
 
 NOTE: The graphs displayed in the LucidChart are using MOCK DATA, and therefore some of them can appear janky.
 
@@ -49,7 +52,16 @@ NOTE: Each .py file here ends with a letter system (ex: [teamx_metrics_j.py](htt
 
 ----------------------------------------------------------------
 
-**4) RETRO:**
+**4) IMPLEMENT TRACKING IN THE APP:**
+
+With the database and visualizations all set to go, we injected the tracking methods in the specific parts of the app, corresponding to the [User Interaction Mapping for Analytics Google Doc
+](https://docs.google.com/document/d/17PhnJm8EooYixnGG27pQEUkdex-_paWT1bLFayNbx0c/edit?usp=sharing).
+
+Voila, we are now tracking analytics!
+
+----------------------------------------------------------------
+
+**5) RETRO:**
 
 _If I did this project again, what would I improve on?_
 
