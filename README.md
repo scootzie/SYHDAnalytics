@@ -27,11 +27,20 @@ NOTE: The graphs displayed in the LucidChart are using MOCK DATA, and therefore 
 
 **Breakdown of the python files:**
 
-1) **The "Grand Daddy" metrics file: teamx_grand_daddy_metrics.py**. This file imported the parent scripts that call each python file. The grand daddy file creates the main metrics directory, which is titled by the current date and time. This folder will contain subfolders created by the parent scripts that categorize the metrics charts.
-2) **The parent scripts**. These are files imported into teamx_grand_daddy_metrics.py and these files are responsible for creating the subfolders to categorize the metrics charts and import the python files that visualize the data. These are all the .py files that are NOT the grand daddy file and are NOT the "teamx_metrics_..." files.
+1) **The "Grand Daddy" Metrics file: [teamx_grand_daddy_metrics.py](https://github.com/scootzie/SYHDAnalytics/blob/master/teamx_grand_daddy_metrics.py)**. This file imports the parent scripts that call each python file, as well as names the metrics report with the current date and time.
+2) **The Parent Scripts**. These files are imported into teamx_grand_daddy_metrics.py. The parent scripts create the subfolders to categorize the metrics charts and they import the .py files responsible for the querying and visualization. 
+
+The Parent Scripts:
+
+- [New User Stats (Downloads + Permissions)](https://github.com/scootzie/SYHDAnalytics/blob/master/teamx_app_store_new_members_member_stats.py)
+- [App Usage Stats (Retention + Demographics)](https://github.com/scootzie/SYHDAnalytics/blob/master/teamx_app_usage_retention_demographics.py)
+- [Contact Connection Stats](https://github.com/scootzie/SYHDAnalytics/blob/master/teamx_contact_and_mark_as_contacted.py)
+- [Create Connection Stats](https://github.com/scootzie/SYHDAnalytics/blob/master/teamx_create_connection_stats.py)
+- ["Ideal State" Stats](https://github.com/scootzie/SYHDAnalytics/blob/master/teamx_due_connections_ideal_state.py) ("Ideal State" == user contacted all the connections that are due to be contacted on their dashboard).
+
 3) **The python files**. These are all the files that start with "**teamx_metrics_...**" and they house the actual data visualization and the SQL that is used to access the database. These files are imported by the parent scripts.
 
-NOTE: Each .py file here ends with a letter system (ex: teamx_metrics_j.py). The letter system in the .py file names corresponds to the graphs shown in the LucidChart link above.
+NOTE: Each .py file here ends with a letter system (ex: [teamx_metrics_j.py](https://github.com/scootzie/SYHDAnalytics/blob/master/teamx_metrics_j.py)). The letter system in the .py file names corresponds to the graphs shown in the LucidChart link above.
 
 ----------------------------------------------------------------
 
