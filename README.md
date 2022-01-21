@@ -7,6 +7,8 @@ First, we started with asking ourselves: "What information do we want to learn a
 
 Then, in the 'Data Visualization Breakdown' sheet in the Google Sheets file linked above, we determined what type of visualization(s) we wanted for each metric.
 
+----------------------------------------------------------------
+
 **2) COLLECT AND STORE DATA:**
 
 After, we determined what specific data we want to capture in our analytics in order to visualize the metrics that we want to capture. We designed the database with this information. **The ER diagram can be found in this repo: ER_Diagram.png**. Mock data for these tables can be found in the 'Database Design' sheet in the Google Sheets file linked above.
