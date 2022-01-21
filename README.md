@@ -1,19 +1,19 @@
 # SYHDAnalytics
 Analytics Repo for the Cultivator app
 
-**DETERMINE PROBLEM TO SOLVE FOR:**
+**1) DETERMINE PROBLEM TO SOLVE FOR:**
 
 First, we started with asking ourselves: "What information do we want to learn about from our app?". We brainstormed questions and prioritized them here: https://docs.google.com/spreadsheets/d/1nWwQaEZrdU11-wkWwzlee_UGbQmj3DU_rylWFxZOH-A/edit?usp=sharing.
 
 Then, in the 'Data Visualization Breakdown' sheet in the Google Sheets file linked above, we determined what type of visualization(s) we wanted for each metric.
 
-**COLLECT AND STORE DATA:**
+**2) COLLECT AND STORE DATA:**
 
 After, we determined what specific data we want to capture in our analytics in order to visualize the metrics that we want to capture. We designed the database with this information. **The ER diagram can be found in this repo: ER_Diagram.png**. Mock data for these tables can be found in the 'Database Design' sheet in the Google Sheets file linked above.
 
 We then mapped out the user interactions to the corresponding analytics data values that we wanted for each action. This assured us that we covered all the use cases we wanted to cover in the app. This data mapping can be found in this Google Doc: https://docs.google.com/document/d/17PhnJm8EooYixnGG27pQEUkdex-_paWT1bLFayNbx0c/edit?usp=sharing.
 
-**CLEAN/ORGANIZE DATA + PERFORM DATA ANALYSIS:**
+**3) CLEAN/ORGANIZE DATA + PERFORM DATA ANALYSIS:**
 
 With the database design in place, we wrote out our .py files to query the database and visualize the data.
 
@@ -28,7 +28,7 @@ NOTE: These graphs are using MOCK DATA, and therefore some of them can appear ja
 3) **The python files**. These are all the files that start with "**teamx_metrics_...**" and they house the actual data visualization and the SQL that is used to access the database. These files are imported by the parent scripts.
 
 
-**RETRO:**
+**4) RETRO:**
 
 _If I did this project again, what would I improve on?_
 
