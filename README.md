@@ -1,5 +1,5 @@
 # SYHDAnalytics
-Analytics Repo for the Cultivator app
+Analytics Repo for Cultivator. [Check out the Cultivator App!](https://cultivatorapp.com/)
 
 **1) DETERMINE PROBLEM TO SOLVE FOR:**
 
