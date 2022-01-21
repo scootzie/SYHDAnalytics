@@ -15,6 +15,8 @@ After, we determined what specific data we want to capture in our analytics in o
 
 We then mapped out the user interactions to the corresponding analytics data values that we wanted for each action. This assured us that we covered all the use cases we wanted to cover in the app. This data mapping can be found in this Google Doc: https://docs.google.com/document/d/17PhnJm8EooYixnGG27pQEUkdex-_paWT1bLFayNbx0c/edit?usp=sharing.
 
+----------------------------------------------------------------
+
 **3) CLEAN/ORGANIZE DATA + PERFORM DATA ANALYSIS:**
 
 With the database design in place, we wrote out our .py files to query the database and visualize the data.
@@ -29,6 +31,7 @@ NOTE: These graphs are using MOCK DATA, and therefore some of them can appear ja
 2) **The parent scripts**. These are files imported into teamx_grand_daddy_metrics.py and these files are responsible for creating the subfolders to categorize the metrics charts and import the python files that visualize the data. These are all the .py files that are NOT the grand daddy file and are NOT the "teamx_metrics_..." files.
 3) **The python files**. These are all the files that start with "**teamx_metrics_...**" and they house the actual data visualization and the SQL that is used to access the database. These files are imported by the parent scripts.
 
+----------------------------------------------------------------
 
 **4) RETRO:**
 
