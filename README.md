@@ -1,7 +1,8 @@
 # SYHDAnalytics
 Analytics Repo for the Cultivator app
 
-**DETERMINE PROBLEM TO SOLVE FOR:**/n
+**DETERMINE PROBLEM TO SOLVE FOR:**
+
 First, we started with asking ourselves: "What information do we want to learn about from our app?". We brainstormed questions and prioritized them here: https://docs.google.com/spreadsheets/d/1nWwQaEZrdU11-wkWwzlee_UGbQmj3DU_rylWFxZOH-A/edit?usp=sharing.
 Then, in the 'Data Visualization Breakdown' sheet in the Google Sheets file linked above, we determined what type of visualization(s) we wanted for each metric.
 
