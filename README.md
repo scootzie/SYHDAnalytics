@@ -9,16 +9,17 @@ Welcome to the Analytics Repo for Cultivator. Below is an outline of how we impl
 
 First, we started with asking ourselves: "What information do we want to learn about from our app?". We brainstormed questions and prioritized them in the [Metrics/Analytics Google Sheet](https://docs.google.com/spreadsheets/d/1nWwQaEZrdU11-wkWwzlee_UGbQmj3DU_rylWFxZOH-A/edit?usp=sharing).
 
-Then, in the 'Data Visualization Breakdown' sheet in that same [Metrics/Analytics Google Sheet](https://docs.google.com/spreadsheets/d/1nWwQaEZrdU11-wkWwzlee_UGbQmj3DU_rylWFxZOH-A/edit?usp=sharing), we determined what type of visualizations we wanted for each metric.
+Then, in the **'Data Visualization Breakdown'** sheet in that same [Metrics/Analytics Google Sheet](https://docs.google.com/spreadsheets/d/1nWwQaEZrdU11-wkWwzlee_UGbQmj3DU_rylWFxZOH-A/edit?usp=sharing), we determined what type of visualizations we imagined in order to answer these questions.
 
 ----------------------------------------------------------------
 
 **2) COLLECT AND STORE DATA:**
 
-After, we determined what specific data we want to capture in our analytics in order to visualize the metrics that we want to capture. We designed the database with this information. **The [ER diagram](https://github.com/scootzie/SYHDAnalytics/blob/master/ER%20Diagram.png) can be found in this repo**. Mock data for these tables can be found in the 'Database Design' sheet in the Google Sheets file linked above.
+After, we then mapped out the user interactions to the corresponding analytics data values that we wanted for each action. This assured us that we covered all the use cases we wanted to cover in the app. This mapping can be found in the [User Interaction Mapping for Analytics Google Doc](https://docs.google.com/document/d/17PhnJm8EooYixnGG27pQEUkdex-_paWT1bLFayNbx0c/edit?usp=sharing).
 
-We then mapped out the user interactions to the corresponding analytics data values that we wanted for each action. This assured us that we covered all the use cases we wanted to cover in the app. This mapping can be found in the [User Interaction Mapping for Analytics Google Doc
-](https://docs.google.com/document/d/17PhnJm8EooYixnGG27pQEUkdex-_paWT1bLFayNbx0c/edit?usp=sharing).
+With the user interaction mapping outlined, we determined what specific data we want to store for our analytics. We designed the database with this information. **The [ER diagram](https://github.com/scootzie/SYHDAnalytics/blob/master/ER%20Diagram.png) can be found in this repo**. 
+
+Mock data for these tables can be found in the **'Database Design'** sheet in that same [Metrics/Analytics Google Sheet](https://docs.google.com/spreadsheets/d/1nWwQaEZrdU11-wkWwzlee_UGbQmj3DU_rylWFxZOH-A/edit?usp=sharing).
 
 ----------------------------------------------------------------
 
@@ -48,7 +49,7 @@ The Parent Scripts:
 
 3) **The python files**. These are all the files that start with "**teamx_metrics_...**" and they house the actual data visualization and the SQL that is used to access the database. These files are imported by the parent scripts.
 
-NOTE: Each .py file here ends with a letter system (ex: [teamx_metrics_j.py](https://github.com/scootzie/SYHDAnalytics/blob/master/teamx_metrics_j.py)). The letter system in the .py file names corresponds to the graphs shown in the LucidChart link above.
+NOTE: Each .py file here ends with a letter system (ex: [teamx_metrics_j.py](https://github.com/scootzie/SYHDAnalytics/blob/master/teamx_metrics_j.py)). The letter system in the .py file names corresponds to the graphs shown in the [LucidChart Diagram](https://lucid.app/documents/view/e0134f2b-ba76-4be6-889d-902c5478011a).
 
 ----------------------------------------------------------------
 
