@@ -1,5 +1,6 @@
 # SYHDAnalytics
-Analytics Repo for Cultivator. [Check out the Cultivator App!](https://cultivatorapp.com/)
+Analytics Repo for Cultivator. 
+[Check out the Cultivator App!](https://cultivatorapp.com/) Base knowledge of how the app works will help to understand the analytics we implemented for it.
 
 **1) DETERMINE PROBLEM TO SOLVE FOR:**
 
