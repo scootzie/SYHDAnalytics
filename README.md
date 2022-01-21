@@ -32,11 +32,14 @@ NOTE: The graphs displayed in the LucidChart are using MOCK DATA, and therefore 
 
 The Parent Scripts:
 
-- [New User Stats (Downloads + Permissions)](https://github.com/scootzie/SYHDAnalytics/blob/master/teamx_app_store_new_members_member_stats.py)
-- [App Usage Stats (Retention + Demographics)](https://github.com/scootzie/SYHDAnalytics/blob/master/teamx_app_usage_retention_demographics.py)
-- [Contact Connection Stats](https://github.com/scootzie/SYHDAnalytics/blob/master/teamx_contact_and_mark_as_contacted.py)
-- [Create Connection Stats](https://github.com/scootzie/SYHDAnalytics/blob/master/teamx_create_connection_stats.py)
-- ["Ideal State" Stats](https://github.com/scootzie/SYHDAnalytics/blob/master/teamx_due_connections_ideal_state.py) ("Ideal State" == user contacted all the connections that are due to be contacted on their dashboard).
+- [New User Stats](https://github.com/scootzie/SYHDAnalytics/blob/master/teamx_app_store_new_members_member_stats.py): Downloads + Permissions
+- [App Usage Stats](https://github.com/scootzie/SYHDAnalytics/blob/master/teamx_app_usage_retention_demographics.py): Retention + Demographics
+- [Contact Connection Stats](https://github.com/scootzie/SYHDAnalytics/blob/master/teamx_contact_and_mark_as_contacted.py): How users are contacting their connections
+- [Create Connection Stats](https://github.com/scootzie/SYHDAnalytics/blob/master/teamx_create_connection_stats.py): How users are creating connections in the app
+- ["Ideal State" Stats](https://github.com/scootzie/SYHDAnalytics/blob/master/teamx_due_connections_ideal_state.py): How/if users are achieving the "Ideal State" (contacted all due connections on their dashboard)
+- [Notification Strategy Effectiveness](https://github.com/scootzie/SYHDAnalytics/blob/master/teamx_notifications_effectiveness.py): How effective are notifications to driving app usage
+- [Reminder Frequency Stats](https://github.com/scootzie/SYHDAnalytics/blob/master/teamx_reminder_frequency_stats.py): How users are setting their connections' reminder frequencies (how often they want to be reminded to reach out to someone)
+- ["Search Connection" Stats](https://github.com/scootzie/SYHDAnalytics/blob/master/teamx_search_connections.py): How users are using the search function in the app
 
 3) **The python files**. These are all the files that start with "**teamx_metrics_...**" and they house the actual data visualization and the SQL that is used to access the database. These files are imported by the parent scripts.
 
